@@ -1,0 +1,20 @@
+label.control-label {
+	font-size: 18px;
+	font-weight: 800;
+}
+
+.deleteButton{
+	margin-right: 4px; 
+}
+
+.margin5{
+
+	margin:10px;
+}
+
+
+.formBorder{
+	border:dotted;
+	min-height: 800px;
+	padding-right: 20px;
+}

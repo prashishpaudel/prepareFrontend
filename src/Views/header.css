@@ -1,0 +1,35 @@
+.header-image{
+  background-color:#454545;
+  height:auto;
+  text-align: left;
+  color: #454545;
+  border-bottom: solid;
+  border-width: 6px;
+  border-color: #ee2024;
+}
+
+.yello{
+  color: #ffd200;
+}
+
+.logo {
+	
+	vertical-align: middle;
+  width:32px;
+}
+
+#header {
+	color: white;
+}
+
+#headerDis{
+  color: white;
+  vertical-align: middle;
+  
+}
+
+
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:focus {
+	color: #fff;
+	background-color: #454545;
+}

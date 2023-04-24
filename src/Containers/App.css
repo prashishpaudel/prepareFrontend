@@ -1,0 +1,15 @@
+body {
+	background-color: #aac1d4;
+	background-image: url("bckg.png");
+	background-repeat: repeat;
+	background-attachment: fixed;
+	background-blend-mode: luminosity;
+}
+
+.jumbotron:hover {background: #a1d4e2}
+
+.jumbotron{
+	height: 180px;
+	padding: 1px;
+}
+

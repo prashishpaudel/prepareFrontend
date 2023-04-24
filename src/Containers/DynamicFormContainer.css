@@ -1,0 +1,60 @@
+.formBorder{
+	border:dotted;
+	min-height: 800px;
+}
+
+.questionsMenu{
+	padding: 10px;
+	background-color: #454545;
+	cursor: pointer;
+	border-bottom: 2px solid floralwhite;
+	border-left: 5px solid #ee2024;
+	color:#fff;
+}
+
+.deleteQuestionMenu
+{
+	padding: 50px 8px 0 8px;
+}
+
+
+input[type=range]{
+    
+    -webkit-appearance: slider-horizontal;
+    
+}
+
+#multichoicform > button,
+#numericForm > button 
+{
+	margin-top: 4px;
+	margin-right: 4px;
+}
+
+#left-tabs-example-pane-fourth > .row,
+#left-tabs-example-pane-second > .row
+{
+	margin-top:15px;
+}
+
+
+.rjsf > p > button
+{
+	background-color: #ee2024;
+	color: #fff;
+}
+.rjsf > p > button:visited
+{
+	background-color: #ee2024;
+}
+
+.rjsf > p > button:hover
+{
+	background-color: #096eb3;
+}
+
+.rjsf > p > button:active,
+.rjsf > p > button:focus
+{
+	background-color: #204b6d !important;
+}

@@ -1,0 +1,29 @@
+.rowHeader12321151{
+	background-color: #454545;
+    border: #454545;
+}
+
+.row12321151{
+	background-color: #fff;
+	border-right: 2px solid #454545;
+}
+
+.row12321151:hover{
+	background-color: lightgray;
+}
+
+.mainsection53224521{
+	padding: 20px;
+	padding-bottom:40px;
+}
+
+.btncell134321{
+	/*border: 3px solid cadetblue;
+	background-color: #b3cce6;*/
+	padding:5px;
+	margin-bottom: 5px;
+}
+
+#addLearnerForm > .btn {
+	margin-top:8px;
+}

@@ -1,0 +1,192 @@
+/*
+ * react-circular-progressbar styles
+ *
+ * All of the styles in this file are optional and configurable!
+ */
+
+.trendAnalysiscss{
+  padding: 20px;
+}
+
+.Youtube{
+  background-color: lightgrey;
+  padding: 20px;
+}
+.CircularProgressbar {
+  /*
+   * This fixes an issue where the CircularProgressbar svg has
+   * 0 width inside a "display: flex" container, and thus not visible.
+   *
+   * If you're not using "display: flex", you can remove this style.
+   */
+  width: 60%;
+}
+
+.vidList{
+  border-left: 6px solid red;
+  background-color: lightgrey;
+  border-bottom: 1px double blue;
+}
+
+.vidSelected{
+
+  border-left: 6px solid green;
+  background-color: lightgrey;
+  border-bottom: 1px double blue;
+
+}
+
+.inside > .CircularProgressbar{
+  width: 100%;
+}
+
+.main{
+  background-color: lightgray;
+}
+.heading{
+  color:#3e98c7;
+}
+
+.event-heading
+{
+  color:#3e98c7;
+  font-size: 18px;
+}
+
+.event-number
+{
+  float:right;
+  padding-right:16px;
+  font-weight:bold;
+}
+
+.rt-thead {
+  color:#3e98c7;
+}
+.CircularProgressbar .CircularProgressbar-path {
+  stroke: #3e98c7;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.5s ease 0s;
+}
+
+.CircularProgressbar .CircularProgressbar-trail {
+  stroke: #d6d6d6;
+}
+
+.CircularProgressbar .CircularProgressbar-text {
+  fill: #3e98c7;
+  font-size: 20px;
+  dominant-baseline: middle;
+  text-anchor: middle;
+}
+
+.whi{
+  background-color: white;
+   padding: 5px;
+   border: 5px solid #f2f6fc;
+   
+}
+
+
+.whi2{
+  background-color: #ffffff;
+  border-bottom:  5px solid #aacaff ; 
+}
+
+
+
+.score{
+  background-color: white;
+  padding: 5px;
+  line-height: 110%;
+   border: 5px solid #f2f6fc;
+   height: 200px;
+}
+.selected{
+  
+  background-color: ##eee;
+  padding: 5px;
+  line-height: 110%;
+   border: 5px solid #ccc;
+   height: 200px;
+}
+.main{
+  padding: 0px;
+  margin:0;
+  
+}
+.sideMenuCellCssSelected{
+   background-color: #337ab7;
+   color: white;
+}
+
+.sideMenuCellCss{
+   background-color: lightgray;
+   color: #337ab7;
+}
+
+.MainContent{
+background-color: white;
+min-height: 300px;
+padding: 20px;
+}
+
+
+
+
+.sidemenu{
+  padding:0px;
+  margin: 0px;
+  
+}
+
+.btn-circle.btn-xl {
+    width: 70px;
+    height: 70px;
+    padding: 10px 16px;
+    border-radius: 35px;
+    font-size: 24px;
+    line-height: 1.33;
+}
+
+.btn-circle {
+    width: 50px;
+    height: 50px;
+    padding: 6px 0px;
+    border-radius: 25px;
+    text-align: center;
+    font-size: 12px;
+    line-height: 1.42857;
+}
+
+.btn-correct
+{
+  background-color:#3e98c7;
+  color: white;
+
+}
+
+.btn-incorrect
+{
+  color:#3e98c7;
+ 
+}
+
+.btn-correct:hover, .btn-incorrect:hover
+{
+  color:white;
+  background-color: #70879a;
+}
+
+
+
+.btn-correct:focus, .btn-incorrect:focus
+{
+  outline:none !important;
+  color:white;
+  background-color:#70879a;
+  
+}
+
+
+

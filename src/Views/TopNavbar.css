@@ -1,0 +1,23 @@
+.navbar-brand {
+    height: 0px;
+}
+
+
+.navbar-nav>li>a {
+    padding-top: 0px; 
+    padding-bottom: 0px;
+}
+
+
+
+.navbar {
+    position: relative;
+    min-height: 0px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+}
+
+
+.logo1{
+	height: 28px;
+}

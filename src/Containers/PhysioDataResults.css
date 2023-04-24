@@ -1,0 +1,45 @@
+#container {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  
+  background-color: #fff;
+  
+}
+
+
+
+.graph7898393{
+  margin-top: 5px;
+
+}
+
+.Sidemenuphysio383933{
+  background-color:#3e98c7 !important;
+  color: white !important;
+}
+
+
+.sidemenu758392{
+	
+}
+
+.recharts-label
+{
+  fill: #3e98c7;
+  font-weight: bold;
+}
+
+
+
+.graph_tooltip
+{
+  border: 2px solid #ddd;
+  border-radius: 5px;
+  height: 60px;
+  width: 125px;
+  background-color: #eee;
+  padding: 6px;
+  text-align: left;
+}
+

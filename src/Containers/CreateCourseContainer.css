@@ -1,0 +1,104 @@
+@font-face {
+  font-family: Poppins-Regular;
+
+  src: url('./fonts/poppins/Poppins-Regular.ttf'); 
+}
+
+@font-face {
+  font-family: Poppins-Bold;
+  src: url('./fonts/poppins/Poppins-Bold.ttf'); 
+}
+
+.whiteBackground{
+	
+	padding-top: 30px;
+	
+	min-height: 800px;
+}
+
+.sideMenu{
+	font-size: 25px
+}
+.sidemenu93872{
+	background-color: #000;
+	min-height: 480px;
+	height: 78vh;
+}
+
+
+.sidemenu93872 a{
+	color: #fff;
+}
+
+.sidemenu93872 .nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus{
+	background-color: #ee2024;
+	color: #fff;
+}
+
+.sidemenu93872 .nav > li > a:hover, .nav > li > a:focus {
+	background-color: #ee2024;
+}
+
+.mainContent12342{
+	background-color: white;
+	min-height: 480px;
+	padding: 30px;
+	scroll-behavior: auto;
+	overflow-y: scroll;
+	height: 78vh;
+}
+
+.sideMenu1{
+	border-top: double;
+}
+
+
+.courseslist1321{
+	padding: 20px;
+}
+
+
+.headercell134321{
+	display: table-cell;
+	font-size: 15px;
+	/*line-height: 1.2;
+	text-transform: uppercase; */
+	border-left: 10px;
+	align-content: center;
+	color: #ffffff;
+  	background: #454545;
+	display: block;
+}
+
+.cell134321{
+	display: table-cell;
+	font-size: 15px;
+	font-family: Poppins-Regular;
+	/*line-height: 1.2;
+	text-transform: uppercase; */
+	border-left: 10px;
+	align-content: center;
+	display: block;
+	font-size: 15px;
+	
+	
+	border-left: 2px solid #454545;
+	border-bottom: 2px solid #454545;
+	padding:5px;
+}
+
+.cell134321.btn{
+	box-shadow:none;
+	border-radius:0;
+}
+
+.cell134321:hover{
+	/*background-color: lightgray;*/
+	/*resize: both;
+	overflow: auto;*/
+}
+
+.btncell134321{
+	color: #808080
+}
+

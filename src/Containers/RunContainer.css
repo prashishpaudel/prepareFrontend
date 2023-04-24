@@ -1,0 +1,18 @@
+.ReactTable{
+	background-color: #fff;
+	font-size: 15px;
+	text-align: center;
+	font-family: sans-serif;
+	font-weight: bold;
+}
+.headercell134321{
+	background-color: #fff;
+	font-size: 15px;
+	font-family: sans-serif;
+	font-weight: bold;
+}
+
+.rt-tr-group:hover
+{
+	background-color:#eee;
+}

@@ -1,0 +1,72 @@
+.goalsObj{
+	padding: 20px;
+}
+
+.blue{
+	background-color: #fff;
+	margin-right: 40px;
+}
+.blue1{
+	background-color: #fff;
+	border-bottom: 5px solid #fff;	
+}
+
+.blueUnderline{
+	border-bottom: 1px solid #454545;	
+	margin-bottom: 15px;
+}
+
+.deleteGoal{
+	background-color: darksalmon;
+    cursor: pointer;
+    text-align: center;
+    padding: 5px;
+    border-bottom: 5px solid floralwhite;
+}
+
+.sideMenu123{
+	padding-top: 20px;
+	padding-bottom: 20px;
+	background-color: black;
+	height: 78vh;
+	min-height: 100%;
+}
+
+.sideMenu123 .nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus{
+	background-color: #ee2024;
+	color: #fff;
+}
+
+.sideMenu123 .nav > li > a:hover, .nav > li > a:focus {
+	background-color: #ee2024;
+}
+
+.sideMenu123 a{
+	color: #fff;
+}
+
+.mmenu, .parent{
+	background-color: white;
+	height: 78vh;
+	overflow-y: scroll;
+}
+
+.form-control::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    border: none;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    background: goldenrod;
+    margin-top: 0px;
+}
+
+.preform {
+	background-color: white;
+}
+
+.row h5{
+	margin-top:0;
+}
+
+
