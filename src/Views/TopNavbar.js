@@ -1,19 +1,11 @@
 /*jslint node: true, esversion:6 */
 import React, { Component } from 'react';
-import { Navbar, Nav, NavItem, NavDropdown, MenuItem, FormGroup, FormControl, Button, InputGroup, Glyphicon } from 'react-bootstrap';
+import { Navbar, Nav, NavItem} from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import './TopNavbar.css';
 //import logo from '../img/logo1.gif'
 
 class TopNavbar extends Component {
-	constructor(props) {
-		super(props);
-	}
-	
-
-
-						
-
 	render() {
 		if(!localStorage.jwtToken){
 			return (<h1></h1>);

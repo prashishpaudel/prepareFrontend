@@ -1,30 +1,11 @@
 /*jslint node: true, esversion:6 */
 import React, { Component } from 'react';
-import { Row, Grid, Panel, formgroups, Alert} from 'react-bootstrap';
-import { Navbar, Nav, NavItem, NavDropdown, MenuItem, FormGroup, FormControl, Button, InputGroup, Glyphicon, Col,Modal} from 'react-bootstrap';
+import { Row} from 'react-bootstrap';
+import {Button, Col,Modal} from 'react-bootstrap';
 //import './NameForm.css'; 
-import Form from 'react-bootstrap-form';
-import axios from 'axios';
-import backendlink from '../../config/links.js';
-
-import setAuthorizationToken from './setAuthorizationToken.js'
-
-
-import ReactTable from 'react-table';
-import queryString from 'query-string';
 
 import FormJson from "react-jsonschema-form";
-
-
-import  {LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend} from 'recharts';
-
-
 import './DynamicFormContainer.css'
-
-
-
-
-
 
 class NameForm extends Component { 
 
@@ -181,7 +162,7 @@ class NameForm extends Component {
   		document.getElementById("multichoicform").reset();
 
 
-  		if(targetname.length==0){
+  		if(targetname.length===0){
   			document.getElementById("warningtargetname").innerHTML=" Please enter the Question ";
   			flag=1;
   		}
@@ -191,7 +172,7 @@ class NameForm extends Component {
   		}
 
 
-  		if(flag==0){
+  		if(flag===0){
   			var temp={};
   			temp['type']="multipleChoice";
   			temp['targetname']=targetname;
@@ -233,12 +214,12 @@ class NameForm extends Component {
 
 
 
-  		if(targetname.length==0){
+  		if(targetname.length===0){
   			document.getElementById("warningtargetname").innerHTML=" Please enter the Question ";
   			flag=1;
   		}
 
-  		if(flag==0){
+  		if(flag===0){
   			var temp={};
   			temp['type']="numeric";
   			temp['targetname']=targetname;
@@ -287,17 +268,17 @@ class NameForm extends Component {
 
 
 
-  		if(targetname.length==0){
+  		if(targetname.length===0){
   			document.getElementById("warningtargetname").innerHTML=" Please enter the Question ";
   			flag=1;
   		}
 
   		
-  		if(isNaN(minInt)||minInt.length==0 || parseInt(minInt)-Number(minInt)!=0){
+  		if(isNaN(minInt)||minInt.length===0 || parseInt(minInt, 10)-Number(minInt)!==0){
   			document.getElementById("warningminInt").innerHTML=" *This should only be a Integer";
   			flag=1;
   		}
-  		if(isNaN(maxInt)||maxInt.length==0 || parseInt(maxInt)-Number(maxInt)!=0){
+  		if(isNaN(maxInt)||maxInt.length===0 || parseInt(maxInt, 10)-Number(maxInt)!==0){
   			document.getElementById("warningmaxInt").innerHTML=" *This should only be a Integer";
   			flag=1;
   		}
@@ -310,7 +291,7 @@ class NameForm extends Component {
   			
   		}
 
-  		if(flag==0){
+  		if(flag===0){
   			var temp={};
   			temp['type']="numericRange";
   			temp['targetname']=targetname;
@@ -345,12 +326,12 @@ class NameForm extends Component {
 
 
 
-  		if(targetname.length==0){
+  		if(targetname.length===0){
   			document.getElementById("warningtargetname").innerHTML=" Please enter the Heading ";
   			flag=1;
   		}
 
-  		if(flag==0){
+  		if(flag===0){
   			var temp={};
   			temp['type']="heading";
   			temp['targetname']=targetname;
@@ -417,12 +398,12 @@ class NameForm extends Component {
 							<tr>
 								<td width="160" valign="bottom" ><b>Question:</b></td>
 	  							<td><input type="text" name="targetname" size="35" /></td>
-	  							<td><span id="warningtargetname" className= "warning"  ></span></td>	
+	  							<td><span id="warningtargetname" className="warning"  ></span></td>	
 	  						</tr>
 	  						<tr>
 								<td width="160" valign="bottom" ><b>Description:</b></td>
 	  							<td><input type="text" name="description" size="35" /></td>
-	  							<td><span id="warningtargetname" className= "warning"  ></span></td>	
+	  							<td><span id="warningtargetname" className="warning"  ></span></td>	
 	  						</tr>
 	  						<tr>
 								<td width="160" valign="bottom" ><b>Goals:</b></td>
@@ -494,7 +475,7 @@ class NameForm extends Component {
 							<tr>
 								<td width="160" valign="bottom" ><b>Question:</b></td>
 	  							<td><input type="text" name="targetname" size="35" /></td>
-	  							<td><span id="warningtargetname" className= "warning"  ></span></td>	
+	  							<td><span id="warningtargetname" className="warning"  ></span></td>	
 	  						</tr>
 	  						<tr>
 								<td width="160" valign="bottom" ><b>Description:</b></td>
@@ -504,12 +485,12 @@ class NameForm extends Component {
 	  						<tr>
 								<td width="160" valign="bottom" ><b>Minimum Int:</b></td>
 	  							<td><input type="text" name="minInt" size="35" /></td>
-	  							<td><span id="warningminInt" className= "warning"  ></span></td>	
+	  							<td><span id="warningminInt" className="warning"  ></span></td>	
 	  						</tr>
 	  						<tr>
 								<td width="160" valign="bottom" ><b>Maximum Int:</b></td>
 	  							<td><input type="text" name="maxInt" size="35" /></td>
-	  							<td><span id="warningmaxInt" className= "warning"  ></span></td>	
+	  							<td><span id="warningmaxInt" className="warning"  ></span></td>	
 	  						</tr>
 	  						<tr>
 								<td width="160" valign="bottom" ><b>Goals:</b></td>
@@ -582,7 +563,7 @@ class NameForm extends Component {
 							<tr>
 								<td width="160" valign="bottom" ><b>Question:</b></td>
 	  							<td><input type="text" name="targetname" size="35" /></td>
-	  							<td><span id="warningtargetname" className= "warning"  ></span></td>	
+	  							<td><span id="warningtargetname" className="warning"  ></span></td>	
 	  						</tr>
 	  						<tr>
 								<td width="160" valign="bottom" ><b>Description:</b></td>
@@ -592,7 +573,7 @@ class NameForm extends Component {
 	  						<tr>
 								<td width="160" valign="bottom" ><b>Add options Seperated by ";" eg."one;two;three":</b></td>
 	  							<td><input type="text" name="options" size="35" /></td>
-	  							<td><span id="warningoptions" className= "warning"  ></span></td>	
+	  							<td><span id="warningoptions" className="warning"  ></span></td>	
 	  						</tr>
 	  						<tr>
 								<td width="160" valign="bottom" ><b>Multiple Select</b></td>
@@ -638,7 +619,7 @@ class NameForm extends Component {
 								<tr>
 									<td width="160" valign="bottom" ><b>Heading:</b></td>
 		  							<td><input type="text" name="targetname" size="35" /></td>
-		  							<td><span id="warningtargetname" className= "warning"  ></span></td>	
+		  							<td><span id="warningtargetname" className="warning"  ></span></td>	
 		  						</tr>
 		  						<tr>
 									<td width="160" valign="bottom" ><b>Description:</b></td>
@@ -660,7 +641,7 @@ class NameForm extends Component {
   addNasaTlx(){
     var assessment= this.state.assessment;
 
-    var assessment1=[{type: "numericRange", targetname: "Mental Demand-How mentally demanding was the task? (Very Low =0, Very High=100)", description: "", goal: "", minInt: 0, maxInt:100, type: "numericRange"},{type: "numericRange", targetname: "Physical Demand - How physically demanding was the task? (Very Low =0, Very High=100)", description: "", goal: "", minInt: 0, maxInt:100, type: "numericRange"},{type: "numericRange", targetname: "Temporal Demand-How hurried or rushed was the pace of the task? (Very Low =0, Very High=100)", description: "", goal: "", minInt: 0, maxInt:100, type: "numericRange"},{type: "numericRange", targetname: "Performance-How successful were you in accomplishing what you were asked to do? (Failure = 0, Perfect=100)", description: "", goal: "", minInt: 0, maxInt:100, type: "numericRange"},{type: "numericRange", targetname: "Effort - How hard did you have to work to accomplish your level of performance? (Very Low =0, Very High=100)", description: "", goal: "", minInt: 0, maxInt:100, type: "numericRange"},{type: "numericRange", targetname: "Frustration - How insecure, discouraged, irritated, stressed, and annoyed were you? (Very Low =0, Very High=100)", description: "", goal: "", minInt: 0, maxInt:100, type: "numericRange"}];
+    var assessment1=[{type: "numericRange", targetname: "Mental Demand-How mentally demanding was the task? (Very Low =0, Very High=100)", description: "", goal: "", minInt: 0, maxInt:100},{type: "numericRange", targetname: "Physical Demand - How physically demanding was the task? (Very Low =0, Very High=100)", description: "", goal: "", minInt: 0, maxInt:100},{type: "numericRange", targetname: "Temporal Demand-How hurried or rushed was the pace of the task? (Very Low =0, Very High=100)", description: "", goal: "", minInt: 0, maxInt:100},{type: "numericRange", targetname: "Performance-How successful were you in accomplishing what you were asked to do? (Failure = 0, Perfect=100)", description: "", goal: "", minInt: 0, maxInt:100},{type: "numericRange", targetname: "Effort - How hard did you have to work to accomplish your level of performance? (Very Low =0, Very High=100)", description: "", goal: "", minInt: 0, maxInt:100},{type: "numericRange", targetname: "Frustration - How insecure, discouraged, irritated, stressed, and annoyed were you? (Very Low =0, Very High=100)", description: "", goal: "", minInt: 0, maxInt:100}];
 
     assessment1.forEach(function(eachassessment){
       assessment.push(eachassessment);
@@ -751,7 +732,6 @@ class NameForm extends Component {
   //   }
   // };
 
-		var formHtml=[];
 
 		assessment.forEach(function(eachAssessment){
 			var temp={};
@@ -760,7 +740,7 @@ class NameForm extends Component {
 
       var goals=eachAssessment['goal'];
 
-			if(eachAssessment['type']=="numeric"){
+			if(eachAssessment['type']==="numeric"){
 
 				temp['title']=eachAssessment['targetname'];
 				temp['type']="number";
@@ -770,7 +750,7 @@ class NameForm extends Component {
 
 
 			}
-			if(eachAssessment['type']=="numericRange"){
+			if(eachAssessment['type']==="numericRange"){
 				temp['title']=eachAssessment['targetname'];
 				temp['type']="integer";
 
@@ -784,7 +764,7 @@ class NameForm extends Component {
 				jsonForm['properties'][eachAssessment['targetname']]=temp;
 				
 			}
-			if(eachAssessment['type']=="heading"){
+			if(eachAssessment['type']==="heading"){
 				temp['title']=eachAssessment['targetname'];
 				temp['description']=goals;
 				jsonForm['properties'][eachAssessment['targetname']]=temp;
@@ -793,7 +773,7 @@ class NameForm extends Component {
 			}
 
 
-			if(eachAssessment['type']=="multipleChoice"){
+			if(eachAssessment['type']==="multipleChoice"){
 				
 				if(eachAssessment['multiplecheckbox']){
 					temp['type']="array";
@@ -827,7 +807,6 @@ class NameForm extends Component {
 
 
 		
-    var index=0;
 		return(
 				<Col sm={12}>
 				<div>

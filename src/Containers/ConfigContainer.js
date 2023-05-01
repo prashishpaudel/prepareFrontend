@@ -1,21 +1,11 @@
 /*jslint node: true, esversion:6 */
-import React,{useState} from 'react';
+// import React,{useState} from 'react';
+import React from 'react';
 import { Row, Grid, Col, Nav, NavItem, Tab } from 'react-bootstrap';
-import backendlink from '../../config/links.js';
-
+// import backendlink from '../../config/links.js';
 import './ConfigContainer.css'
-
-
-
-
 const ConfigContainer = () => {
 
-
-
-
-
-
-  
   return (
     <Grid className="whiteBackground">
       <Row>

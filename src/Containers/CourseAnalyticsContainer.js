@@ -1,23 +1,13 @@
 /*jslint node: true, esversion:6 */
 import React, { Component } from 'react';
-import { Row, Grid, Panel, formgroups, Alert} from 'react-bootstrap';
-import { Navbar, Nav, NavItem, NavDropdown, MenuItem, FormGroup, FormControl, Button, InputGroup, Glyphicon, Col,ProgressBar} from 'react-bootstrap';
+import { Row, Panel,} from 'react-bootstrap';
+import { Button,  Col,ProgressBar} from 'react-bootstrap';
 //import './NameForm.css'; 
-import Form from 'react-bootstrap-form';
 import axios from 'axios';
 import backendlink from '../../config/links.js';
-
-import setAuthorizationToken from './setAuthorizationToken.js'
-
 import CircularProgressbar from 'react-circular-progressbar';
-
-
-
-import ReactTable from 'react-table';
 import 'react-table/react-table.css'
-
 import './CourseAnalyticsContainer.css';
-import queryString from 'query-string';
 
 
 class NameForm extends Component {
@@ -92,17 +82,12 @@ class NameForm extends Component {
 		learnerData.forEach(function(eachLearnerData){
 			learner_ids.push(eachLearnerData.LEARNER_ID);
 		});
-
-		this.getData(this.state.course_id, learner_ids);
-		
-
-
  		
 	}
 
 
 	componentWillReceiveProps(pp){
-		if(pp.learnerData!=this.state.learnerData){
+		if(pp.learnerData!==this.state.learnerData){
 
 
 			this.setState({
@@ -200,28 +185,23 @@ class NameForm extends Component {
 
 
   render() {
-  	const divStyle = {
-  		width: '200px'
-	};
-	const timelineStyle= {
-		"background-color":"white",
-		"border":"2px dotted grey"
-	}
-	var data=this.state.data;
+
+	// if (!this.state.data || !this.state.data.goalDetails ) {
+	// 	return <div>Loading...</div>;
+	//   }
+
 	
-	var averagePostassessment=data.averagePostassessment;
-	var averagePreassessment=data.averagePreassessment;
-	var averageScenarioEvents=data.averageScenarioEvents;
-	var goalDetails=data.goalDetails;
-	var objectiveScoreAll=data.objectiveScoreAll;
+	var data=this.state.data;
+	console.log(data)
+	var goalDetails=data.goalDetails ;
+	var objectiveScoreAll=data.objectiveScoreAll ;
 	var objectiveScorePost=data.objectiveScorePost;
-	var objectiveScorePre=data.objectiveScorePre;
+	var objectiveScorePre=data.objectiveScorePre ;
 	var objectiveScoreScenario=data.objectiveScoreScenario;
 
 	var overallgoal=[];
 	if(goalDetails){
 		Object.keys(goalDetails).forEach(function(eachgoal){
-			overallgoal
 			var objectivehtml=[];
 			
 			var totalScore=0;
@@ -236,8 +216,8 @@ class NameForm extends Component {
 								<ProgressBar now={Math.round(objectiveScoreAll[objective][0]/objectiveScoreAll[objective][1])} label={`${Math.round(objectiveScoreAll[objective][0]/objectiveScoreAll[objective][1])}%`} />
 							</div>
 						)
-						totalScore=totalScore+objectiveScoreAll[objective][0];
-						totalCount=totalCount+objectiveScoreAll[objective][1];
+						totalScore+=objectiveScoreAll[objective][0];
+						totalCount+=objectiveScoreAll[objective][1];
 				}
 				
 			});
@@ -308,10 +288,10 @@ class NameForm extends Component {
 						)
 
 
-						totalScorePre=totalScorePre+objectiveScorePre[objective][0];
-						totalCountPre=totalCountPre+objectiveScorePre[objective][1];
-						totalScorePost=totalScorePost+objectiveScorePost[objective][0];
-						totalCountPost=totalCountPost+objectiveScorePost[objective][1];
+						totalScorePre+=objectiveScorePre[objective][0];
+						totalCountPre+=objectiveScorePre[objective][1];
+						totalScorePost+=objectiveScorePost[objective][0];
+						totalCountPost+=objectiveScorePost[objective][1];
 				}
 				
 			});
@@ -354,7 +334,6 @@ class NameForm extends Component {
 
 	if(goalDetails){
 		Object.keys(goalDetails).forEach(function(eachgoal){
-			overallgoal
 			var objectivehtml=[];
 			
 			var totalScoreScneario=0;
@@ -380,8 +359,8 @@ class NameForm extends Component {
 					// 			<b>Pre {objective}:</b>{Math.round(objectiveScoreScenario[objective][0]/objectiveScoreScenario[objective][1])}
 					// 		</div>
 					// 	)
-						totalScoreScneario=totalScoreScneario+objectiveScoreScenario[objective][0];
-						totalCountScenario=totalCountScenario+objectiveScoreScenario[objective][1];
+						totalScoreScneario+=objectiveScoreScenario[objective][0];
+						totalCountScenario+=objectiveScoreScenario[objective][1];
 				}
 				
 			});

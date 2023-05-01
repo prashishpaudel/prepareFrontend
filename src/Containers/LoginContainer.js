@@ -1,19 +1,10 @@
 /*jslint node: true, esversion:6 */
 import React, { Component } from 'react';
-import { Row, Grid, Panel, formgroups, Alert} from 'react-bootstrap';
-import { Navbar, Nav, NavItem, NavDropdown, MenuItem, FormGroup, FormControl, Button, InputGroup, Glyphicon, Col} from 'react-bootstrap';
-
-import Form from 'react-bootstrap-form';
+import { Row, Grid} from 'react-bootstrap';
+import { Button, Col} from 'react-bootstrap';
 import axios from 'axios';
-import setAuthorizationToken from './setAuthorizationToken.js'
 import backendlink from '../../config/links.js';
-
 import './LoginContainer.css'
-
-
-
-
-
 class NameForm extends Component {
 
   constructor(props) {
@@ -31,19 +22,15 @@ class NameForm extends Component {
     var flag=0;
     var username = document.getElementById("loginForm").elements["username"].value;
     var password = document.getElementById("loginForm").elements["password"].value;
-    if(username.length==0){
+    if(username.length===0){
         alert(" *Please enter the Event Name ");
         flag=1;
       }
-    if(password.length==0){
+    if(password.length===0){
         alert(" *Please enter the Event Name ");
         flag=1;
       }
-      if(flag==0){
-        var params= {
-          username:username,
-          password:password
-        }
+      if(flag===0){
         axios.post(backendlink.backendlink+'/login',{
           username:username,
           password:password
@@ -60,7 +47,7 @@ class NameForm extends Component {
       }
 
 
-    }.bind(this))
+    })
     .catch(function (error) {
         
       });

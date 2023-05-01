@@ -1,18 +1,13 @@
 /*jslint node: true, esversion:6 */
 import React, { Component } from 'react';
-import { Row, Grid, Panel, formgroups, Alert } from 'react-bootstrap';
-import { Navbar, Nav, NavItem, NavDropdown, MenuItem, FormGroup, FormControl, Button, InputGroup, Glyphicon, Col, Jumbotron } from 'react-bootstrap';
+import { Row } from 'react-bootstrap';
+import { Button, Jumbotron, Col } from 'react-bootstrap';
 //import './NameForm.css'; 
-import Form from 'react-bootstrap-form';
+
 import axios from 'axios';
 import backendlink from '../../config/links.js';
 import { LinkContainer } from 'react-router-bootstrap';
-
-import setAuthorizationToken from './setAuthorizationToken.js'
-
-import ReactTable from 'react-table';
 import 'react-table/react-table.css'
-import queryString from 'query-string';
 import './HomeContainer.css'
 
 class NameForm extends Component {
@@ -66,7 +61,7 @@ class NameForm extends Component {
 
 				}
 
-			}.bind(this))
+			})
 			.catch(function (error) {
 
 			});
@@ -75,24 +70,15 @@ class NameForm extends Component {
 
 
 	render() {
-
-		const timelineStyle = {
-			"background-color": "#5b95c7",
-			"border": "2px dotted grey"
-		}
 		return (
 
-			<div class="homelist">
+			<div className="homelist">
 				<br />
-				<div class="picColumn">
 					<Col sm={3}>
-						<div class="homesidepane">
-							{/* <img src={require('./wordart1.png')} /> */}
-							<img src={require('./extendedLogo.png')} />
+						<div className="homesidepane">
+							<img src={require('./extendedLogo.png')}alt="" />
 						</div>
 					</Col>
-				</div>
-
 				<Col xs={9}>
 					<Row xs={9}>
 						<LinkContainer to='/course'>
@@ -124,31 +110,31 @@ class NameForm extends Component {
 					</Row>
 
 					<Row xs={9}>
-					<LinkContainer to='/courseResult'>
-						<Jumbotron>
-							<h3>Results</h3>
-							<p>
-								View learner assessments
-							</p>
-							<p>
-								<LinkContainer to='/courseResult'><Button bsStyle="primary">Results</Button></LinkContainer>
-							</p>
-						</Jumbotron>
+						<LinkContainer to='/courseResult'>
+							<Jumbotron>
+								<h3>Results</h3>
+								<p>
+									View learner assessments
+								</p>
+								<p>
+									<LinkContainer to='/courseResult'><Button bsStyle="primary">Results</Button></LinkContainer>
+								</p>
+							</Jumbotron>
 						</LinkContainer>
 					</Row>
-				<Row xs={9}>
-					<LinkContainer to='/config'>
-						<Jumbotron>
-							<h3>Configuration</h3>
-							<p>
-								Configure platform options
-							</p>
-							<p>
-								<LinkContainer to='/config'><Button bsStyle="primary">Config</Button></LinkContainer>
-							</p>
-						</Jumbotron>
-					</LinkContainer>
-			</Row>
+					<Row xs={9}>
+						<LinkContainer to='/config'>
+							<Jumbotron>
+								<h3>Configuration</h3>
+								<p>
+									Configure platform options
+								</p>
+								<p>
+									<LinkContainer to='/config'><Button bsStyle="primary">Config</Button></LinkContainer>
+								</p>
+							</Jumbotron>
+						</LinkContainer>
+					</Row>
 
 				</Col>
 

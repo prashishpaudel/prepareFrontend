@@ -1,44 +1,20 @@
 	/*jslint node: true, esversion:6 */
 import React, { Component } from 'react';
-import { Row, Grid, Panel, formgroups, Alert} from 'react-bootstrap';
-import {  r, Nav, NavItem, NavDropdown, MenuItem, FormGroup, FormControl, Button, InputGroup, Glyphicon, Col, Modal, Tab} from 'react-bootstrap';
+import { Row, Grid} from 'react-bootstrap';
+import {Nav, NavItem,Button,Glyphicon, Col, Tab} from 'react-bootstrap';
 //import './NameForm.css'; 
-import Form from 'react-bootstrap-form'; 
 import axios from 'axios';
 import backendlink from '../../config/links.js';
-
-import setAuthorizationToken from './setAuthorizationToken.js'
-
-import CircularProgressbar from 'react-circular-progressbar';
-
-import ReactTable from 'react-table';
-
 import queryString from 'query-string';
-
 import DynamicFormContainer from './DynamicFormContainer';
-
 import CreateModifyCourseScenarioContainer from './CreateModifyCourseScenarioContainer.js';
 import CreateModifyCourseLearnerContainer from './CreateModifyCourseLearnerContainer.js';
-
 import ResultContainer from './ResultsContainer1.js';
-
-
 import ResultContainer3 from './ResultsContainer3.js';
-
-
-
 import CourseAnalyticsContainer from './CourseAnalyticsContainer.js' 
-
 import CourseAvgContainer from './CourseAvgContainer.js';
-
-
 import './SpecificCourseContainer.css'
 
-
-import  {LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend} from 'recharts';
-
-
- 
 
 
 class NameForm extends Component {
@@ -79,9 +55,7 @@ class NameForm extends Component {
  	axios.defaults.headers.common['authenticationtoken'] = localStorage.jwtToken;
  	var params={
    			course_id:this.state.course_id
-   		}
-   		var course_id=this.state.course_id;
-   			
+   		}	
 		axios.get(backendlink.backendlink+'/speceficcourse',{
 			params:params,
 
@@ -91,7 +65,6 @@ class NameForm extends Component {
 
 			
 			var check = response.data;
-			var traineeHist=[];
 			if(check&&check.error){
 				window.location.href = "./login?message="+check.message;
 			}
@@ -161,15 +134,12 @@ class NameForm extends Component {
   			axios.get(backendlink.backendlink+'/savepostassessment', {
 	    		params: params
   			})
-			.then(function (response) {
-
-				
-				
-				
-
-			}.bind(this))
-			.catch(function (error) {
-  			});
+			  .then(response => {
+				// Handle response here
+			})
+			.catch(error => {
+				// Handle error here
+			});
 
 
 	}
@@ -184,15 +154,12 @@ class NameForm extends Component {
   			axios.get(backendlink.backendlink+'/savepreassessment', {
 	    		params: params
   			})
-			.then(function (response) {
-
-				
-				
-				
-
-			}.bind(this))
-			.catch(function (error) {
-  			});
+			  .then(response => {
+				// Handle response here
+			})
+			.catch(error => {
+				// Handle error here
+			});
 
 
 	}
@@ -211,15 +178,12 @@ class NameForm extends Component {
   			axios.get(backendlink.backendlink+'/savegoals', {
 	    		params: params
   			})
-			.then(function (response) {
-
-				
-				
-				
-
-			}.bind(this))
-			.catch(function (error) {
-  			});
+			  .then(response => {
+				// Handle response here
+			})
+			.catch(error => {
+				// Handle error here
+			});
 
 
 	}
@@ -381,7 +345,7 @@ class NameForm extends Component {
 							<table>
 							<tr>
 								<td width="160" valign="bottom" ><b>Select Goal:</b></td>
-	  							<td><select name="goalInd" id = "goalInd1">
+	  							<td><select name="goalInd" id="goalInd1">
 	  								{goals}
 								</select>	</td>
 	  							<td></td>	
@@ -467,10 +431,6 @@ gotoPreSpec(id){
   render() {
  
 	  	
-		const timelineStyle= {
-			"background-color":"white",
-			"border":"2px dotted grey"
-		}
 
 		var preassessment=this.state.preassessment;
 		var postassessment=this.state.postassessment;
@@ -502,7 +462,7 @@ gotoPreSpec(id){
 					      </Nav>
 					    </Col>
 					    
-					    <Col sm={9} className="mmenu" class = "sticky">
+					    <Col sm={9} className="mmenu" class="sticky">
 					      <Tab.Content animation>
 					        <Tab.Pane eventKey="first">
 					        	{this.goalObjDiv()}
@@ -543,13 +503,13 @@ gotoPreSpec(id){
 					        	
 
 
-					        	<CourseAnalyticsContainer learnerData = {this.state.learnerData} course_id={this.state.course_id} />
+					        	<CourseAnalyticsContainer learnerData={this.state.learnerData} course_id={this.state.course_id}/>
 
 					        </Tab.Pane> 
 
 					        <Tab.Pane eventKey="ninth">
 
-					        	<CourseAvgContainer course_id={this.state.course_id} learnerData = {this.state.learnerData} />
+					        	<CourseAvgContainer course_id={this.state.course_id} learnerData={this.state.learnerData} />
 
 					        </Tab.Pane> 
 

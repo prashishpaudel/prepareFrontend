@@ -1,20 +1,13 @@
 /*jslint node: true, esversion:6 */
 import React, { Component } from 'react';
-import { Row, Grid, Panel, formgroups, Alert} from 'react-bootstrap';
-import { Navbar, Nav, NavItem, NavDropdown, MenuItem, FormGroup, FormControl, Button, InputGroup, Glyphicon, Col, Tab} from 'react-bootstrap';
+import { Row, Grid,Alert} from 'react-bootstrap';
+import {Nav, NavItem, Button,Glyphicon, Col, Tab} from 'react-bootstrap';
 import '../Views/NameForm.css';
-import Form from 'react-bootstrap-form';
 import axios from 'axios';
 import backendlink from '../../config/links.js';
-import { LinkContainer } from 'react-router-bootstrap';
-import setAuthorizationToken from '../Containers/setAuthorizationToken.js' 
-import ReactTable from 'react-table';
 import 'react-table/react-table.css'
-import DynamicFormContainer from './DynamicFormContainer';
 import './CreateCourseContainer.css'
 // import FlashMessage from "react-native-flash-message";
-import AlertDismissible from './AlertDismissible.js'
-
 class NameForm extends Component {
   constructor(props) {
     super(props);
@@ -49,14 +42,14 @@ class NameForm extends Component {
   		
   		var flag=0;
   		
-  		if(coursename.length==0){
+  		if(coursename.length===0){
   			document.getElementById("cname").innerHTML=" *Enter CourseName";
   			flag=1;
   		}
 
 
 
-  		if(flag==0){
+  		if(flag===0){
 
   			
 
@@ -67,15 +60,15 @@ class NameForm extends Component {
   			axios.get(backendlink.backendlink+'/createCourse', {
 	    		params: params
   			})
-			.then(function (response) {
+			.then(response=> {
 				
 				location.reload();
 				
 
-
-			}.bind(this))
-			.catch(function (error) {
-  			});
+			})
+				.catch(error => {
+					// Handle error here
+				});
 
   		}
 
@@ -95,7 +88,6 @@ class NameForm extends Component {
     		
     		var tables={};
 			var data=response.data;	
-			var that=this;
 
 			console.log(data);
 			
@@ -119,17 +111,17 @@ class NameForm extends Component {
 			
 			tables.rows=data;
 			if(data.length>0){
-				tables.columns= new Array();
+				tables.columns= [];
 				Object.keys(data[0]).forEach(function (value){
 				var temp = {};
 
-				if(value=="COURSE_ID"){
+				if(value==="COURSE_ID"){
 					temp.Header=  "1";	
-				}else if(value=="COURSE_NAME"){
+				}else if(value==="COURSE_NAME"){
 					temp.Header="Name";
-				}else if(value=="UPDATE_AT"){
+				}else if(value==="UPDATE_AT"){
 					temp.Header="Last Modified";
-				}else if(value=="username"){
+				}else if(value==="username"){
 					temp.Header="Owner";
 				}
 
@@ -175,7 +167,7 @@ class NameForm extends Component {
 
 
  courseCreationDiv() {
-		if(this.state&&this.state.scenarioInGeneration==0){
+		if(this.state&&this.state.scenarioInGeneration===0){
 		return (
 			<form action="" id="courseform">
 						<table>
@@ -183,7 +175,7 @@ class NameForm extends Component {
 							<tr>
 								<td width="160" valign="bottom" ><b>Course Name</b></td>
 	  							<td><input type="text" name="coursename" size="35" /></td>
-	  							<td><span id="cname" className= "warning"  ></span></td>
+	  							<td><span id="cname" className="warning"></span></td>
 	  							<td><Button className="btn-primary" onClick={this.createCourse.bind(this)}>Create Course</Button></td>
 	  						</tr>	
 						</table>			

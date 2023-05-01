@@ -1,31 +1,8 @@
 .homelist{
 	padding: 1px;
 	font-size: 1px;
+	margin-top:10px;
 }
-
-.picColumn{
-/*	color: blue;
-	writing-mode: vertical-lr;
-    text-orientation: mixed;
-    background-color: white !important;*/
-    background-color:#FFFFFF;
-    margin-top:10px;
-    overflow: hidden;
-    width: 100px;
-
-}
-
-.picColumn img{
-	width: 100px;
-	overflow: hidden;
-
-}
-
-/*.homesidepane.active{
-	
-	background-color: #000000 !important;
-	overflow: hidden;
-} */
 
 .homesidepane img{
 	height: 100%;

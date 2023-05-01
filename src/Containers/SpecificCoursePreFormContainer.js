@@ -1,33 +1,13 @@
 	/*jslint node: true, esversion:6 */
 import React, { Component } from 'react';
-import { Row, Grid, Panel, formgroups, Alert} from 'react-bootstrap';
-import { Navbar, Nav, NavItem, NavDropdown, MenuItem, FormGroup, FormControl, Button, InputGroup, Glyphicon, Col, Modal, Tab} from 'react-bootstrap';
+import { Row, Grid} from 'react-bootstrap';
+import { Button, Col} from 'react-bootstrap';
 //import './NameForm.css'; 
-import Form from 'react-bootstrap-form'; 
 import axios from 'axios';
 import backendlink from '../../config/links.js';
-
-import setAuthorizationToken from './setAuthorizationToken.js'
-
-import CircularProgressbar from 'react-circular-progressbar';
 import FormJson from "react-jsonschema-form";
-
-import ReactTable from 'react-table';
-
 import queryString from 'query-string';
-
-import DynamicFormContainer from './DynamicFormContainer';
-
-import CreateModifyCourseScenarioContainer from './CreateModifyCourseScenarioContainer.js';
-import CreateModifyCourseLearnerContainer from './CreateModifyCourseLearnerContainer.js'; 
-
-
 import './SpecificCourseContainer.css'
-
-
-import  {LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend} from 'recharts';
-
-
  
 
 
@@ -50,7 +30,6 @@ class NameForm extends Component {
  	var params={
    			course_id:this.state.course_id
    		}
-   		var course_id=this.state.course_id;
    			
 		axios.get(backendlink.backendlink+'/speceficcourse',{
 			params:params,
@@ -61,7 +40,6 @@ class NameForm extends Component {
 
 			
 			var check = response.data;
-			var traineeHist=[];
 			if(check&&check.error){
 				window.location.href = "./login?message="+check.message;
 			}
@@ -69,12 +47,7 @@ class NameForm extends Component {
 			
 
 			var datas=response.data.data;
-				var goalData=[]
 				var preassessment=[]
-				var postassessment=[]
-
-				
-
 			var courseDetails= datas.courseDetails;
 			var learnerData = datas.learnerData;
 				
@@ -113,10 +86,6 @@ class NameForm extends Component {
 		jsonForm["type"]= "object";
 
     var formData = {};
-
-
-		var formHtml=[];
-
 		assessment.forEach(function(eachAssessment){
 			var temp={};
 			temp['type']="numeric";
@@ -124,7 +93,7 @@ class NameForm extends Component {
       console.log(eachAssessment);
       var goals=JSON.stringify(eachAssessment['goal']);
 
-			if(eachAssessment['type']=="numeric"){
+			if(eachAssessment['type']==="numeric"){
 
 				temp['title']=eachAssessment['targetname'];
 				temp['type']="number";
@@ -133,7 +102,7 @@ class NameForm extends Component {
 
 
 			}
-			if(eachAssessment['type']=="numericRange"){
+			if(eachAssessment['type']==="numericRange"){
 				temp['title']=eachAssessment['targetname'];
 				temp['type']="integer";
 
@@ -150,7 +119,7 @@ class NameForm extends Component {
 				jsonForm['properties'][eachAssessment['targetname']]=temp;
 				
 			}
-			if(eachAssessment['type']=="heading"){
+			if(eachAssessment['type']==="heading"){
 				temp['title']=eachAssessment['targetname'];
 				temp['description']=goals;
 				jsonForm['properties'][eachAssessment['targetname']]=temp;
@@ -159,7 +128,7 @@ class NameForm extends Component {
 			}
 
 
-			if(eachAssessment['type']=="multipleChoice"){
+			if(eachAssessment['type']==="multipleChoice"){
 				
 				if(eachAssessment['multiplecheckbox']){
 					temp['type']="array";
@@ -252,20 +221,8 @@ class NameForm extends Component {
 
 
 participantInfoForm(){
-
-  	var roles=[];
   	var learnerData =this.state.learnerData;
   	var learnerDataHTML=[];
-
-
-  	
-  	
-  	if(this.state && this.state.roles){
-  		roles=this.state.roles;
-  	}
-  	var patientInfoForm=[];
-
-  	
 
   	learnerData.forEach(function(eachData,index){
   		learnerDataHTML.push(
@@ -334,17 +291,17 @@ participantInfoForm(){
 		var year = document.getElementById("addLEarner").elements["year"].value.trim();
 
 		var flag=0;
-		if(department.length==0){
+		if(department.length===0){
 			flag=1;
 		}
-		if(department.length==0){
+		if(department.length===0){
 			flag=1;
 		}
-		if(year.length==0){
+		if(year.length===0){
 			flag=1;
 		}
 
-		if(flag==1){
+		if(flag===1){
 			alert("Enter Complete info");
 
 		}else{
@@ -374,14 +331,7 @@ participantInfoForm(){
 	}
 
   render() {
- 		
-	  	
-		const timelineStyle= {
-			"background-color":"white",
-			"border":"2px dotted grey"
-		}
 
-		var preassessment=this.state.preassessment;
 		var courseDetails = this.state.courseDetails;
 		var Content=[];
 		var flag = this.state.flag;
@@ -390,9 +340,9 @@ participantInfoForm(){
 			courseName=courseDetails[0].COURSE_NAME	
 		}
 
-		if(flag==1){
+		if(flag===1){
 			Content.push(this.formDisplay());
-		}else if(flag==0){
+		}else if(flag===0){
 
 
 			Content.push(

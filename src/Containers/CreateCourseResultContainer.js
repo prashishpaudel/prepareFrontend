@@ -1,16 +1,11 @@
 /*jslint node: true, esversion:6 */
 import React, { Component } from 'react';
-import { Row, Grid, Panel, formgroups, Alert} from 'react-bootstrap';
-import { Navbar, Nav, NavItem, NavDropdown, MenuItem, FormGroup, FormControl, Button, InputGroup, Glyphicon, Col, Tab} from 'react-bootstrap';
+import { Row, Grid} from 'react-bootstrap';
+import {Nav, NavItem,Glyphicon, Col, Tab} from 'react-bootstrap';
 import '../Views/NameForm.css';
-import Form from 'react-bootstrap-form';
 import axios from 'axios';
 import backendlink from '../../config/links.js';
-import { LinkContainer } from 'react-router-bootstrap';
-import setAuthorizationToken from '../Containers/setAuthorizationToken.js' 
-import ReactTable from 'react-table';
 import 'react-table/react-table.css'
-import DynamicFormContainer from './DynamicFormContainer';
 import './CreateCourseContainer.css'
 
 
@@ -52,8 +47,6 @@ class NameForm extends Component {
     		
     		var tables={};
 			var data=response.data;	
-			var that=this;
-
 			console.log(data);
 			
 			data.forEach(function(row){
@@ -76,17 +69,17 @@ class NameForm extends Component {
 			
 			tables.rows=data;
 			if(data.length>0){
-				tables.columns= new Array();
+				tables.columns= [];
 				Object.keys(data[0]).forEach(function (value){
 				var temp = {};
 
-				if(value=="COURSE_ID"){
+				if(value==="COURSE_ID"){
 					temp.Header=  "1";	
-				}else if(value=="COURSE_NAME"){
+				}else if(value==="COURSE_NAME"){
 					temp.Header="Name";
-				}else if(value=="UPDATE_AT"){
+				}else if(value==="UPDATE_AT"){
 					temp.Header="Last Modified";
-				}else if(value=="username"){
+				}else if(value==="username"){
 					temp.Header="Owner";
 				}
 

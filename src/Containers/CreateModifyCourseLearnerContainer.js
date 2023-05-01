@@ -1,14 +1,9 @@
 /*jslint node: true, esversion:6 */
 import React, { Component } from 'react';
-import { Row, Grid, Panel, formgroups, Alert} from 'react-bootstrap';
-import { Navbar, Nav, NavItem, NavDropdown, MenuItem, FormGroup, FormControl, Button, InputGroup, Glyphicon, Col} from 'react-bootstrap';
-
-import Form from 'react-bootstrap-form';
+import { Row} from 'react-bootstrap';
+import { Button,Col} from 'react-bootstrap';
 import axios from 'axios';
 import backendlink from '../../config/links.js';
-import { LinkContainer } from 'react-router-bootstrap';
-import setAuthorizationToken from '../Containers/setAuthorizationToken.js' 
-import ReactTable from 'react-table';
 import 'react-table/react-table.css';
 import '../Views/NameForm.css';
 import './CreateModifyCourseScenarioContainer.css';
@@ -48,7 +43,6 @@ deleteLearner(id)
 	  })
 	.then(function (response) {
 		var data=response.data;	
-		var that=this;
 		this.setState({
 			learnerData:data.data
 		});
@@ -77,40 +71,32 @@ deleteLearner(id)
 		faculty=faculty.trim();
 
 		console.log(learnerName);
-
-  		var flag=0;
-
-  		if(learnerName.length==0){
+  		if(learnerName.length===0){
   			document.getElementById("learnerName").innerHTML=" *Please enter the Learner Name ";
-  			flag=1;
   		}else{
   			document.getElementById("learnerName").innerHTML="";
   		}
 
-  		if(rocketId.length==0){
+  		if(rocketId.length===0){
   			document.getElementById("rocketId").innerHTML=" *Please enter the Rocket Id";
-  			flag=1;
   		}else{
   			document.getElementById("rocketId").innerHTML="";
   		}
 
-  		if(role.length==0){
+  		if(role.length===0){
   			document.getElementById("role").innerHTML=" *Please enter the role";
-  			flag=1;
   		}else{
   			document.getElementById("role").innerHTML="";
   		}
 
-  		if(isNaN(years)||years.length==0){
+  		if(isNaN(years)||years.length===0){
   			document.getElementById("years").innerHTML=" *This should only be a number";
-  			flag=1;
   		}else{
   			document.getElementById("years").innerHTML="";
   		}
 
-  		if(faculty.length==0){
+  		if(faculty.length===0){
   			document.getElementById("faculty").innerHTML=" *Please enter the faculty/Discipline";
-  			flag=1;
   		}else{
   			document.getElementById("faculty").innerHTML="";
   		}
@@ -129,7 +115,6 @@ deleteLearner(id)
   		})
 		.then(function (response) {
 			var data=response.data;	
-			var that=this;
 			this.setState({
 				learnerData:data.data
 			});
@@ -145,7 +130,6 @@ deleteLearner(id)
 
 
   		return;
-  		document.getElementById("addLearnerForm").reset();
 
 
 
@@ -186,7 +170,6 @@ deleteLearner(id)
     		
     		
 			var data=response.data;	
-			var that=this;
 			this.setState({
 				learnerData:data.data
 			});
@@ -217,29 +200,29 @@ deleteLearner(id)
 							<tr>
 								<td width="160" valign="bottom" ><b>Learner Name</b></td>
 	  							<td><input type="text" name="learnerName" size="35" /></td>
-	  							<td><span id="learnerName" className= "warning"  ></span></td>
+	  							<td><span id="learnerName" className="warning"  ></span></td>
 	  							
 	  						</tr>
 	  						<tr>
 								<td width="160" valign="bottom" ><b>Rocket ID</b></td>
 	  							<td><input type="text" name="rocketId" size="35" /></td>
-	  							<td><span id="rocketId" className= "warning"  ></span></td>
+	  							<td><span id="rocketId" className="warning"  ></span></td>
 	  							
 	  						</tr>
 	  						<tr>
 								<td valign="bottom"><b>Role</b></td>
 								<td><input type="text" name="role" size="35"/></td>
-								<td><span className= "warning" id="role" ></span></td>
+								<td><span className="warning" id="role" ></span></td>
 							</tr>
 							<tr>
 								<td valign="bottom"><b>Years</b></td>
 								<td><input type="text" name="years" size="35"/></td>
-								<td><span className= "warning" id="years" ></span></td>
+								<td><span className="warning" id="years" ></span></td>
 							</tr>	
 							<tr>
 								<td valign="bottom"><b>Faculty/Department</b></td>
 								<td><input type="text" name="faculty" size="35"/></td>
-								<td><span className= "warning" id="faculty" ></span></td>
+								<td><span className="warning" id="faculty" ></span></td>
 							</tr>		
 									
 						</table>
@@ -266,7 +249,6 @@ deleteLearner(id)
 
 
   	var rowsHtml=[];
-  	var rowsHtml1=[];
   	rowsHtml.push(
   		<Row className="rowHeader12321151">
 			<Col className="headercell134321" sm={2}><b>Learner Name</b></Col>

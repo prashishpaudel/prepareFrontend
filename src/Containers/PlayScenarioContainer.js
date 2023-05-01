@@ -1,34 +1,18 @@
 /*jslint node: true, esversion:6 */ 
 import React, { Component } from 'react';
-import { Row, Grid, Panel, formgroups, Alert} from 'react-bootstrap';
-import { Navbar, Nav, NavItem, NavDropdown, MenuItem, FormGroup, FormControl, Button, InputGroup, Glyphicon, Col} from 'react-bootstrap';
+import { Row, Grid, Panel} from 'react-bootstrap';
+import {Button, Col} from 'react-bootstrap';
 //import './NameForm.css';
-import Form from 'react-bootstrap-form';
 import axios from 'axios';
 import backendlink from '../../config/links.js';
 
 import play from '../img/playbutton.jpg'
 import pause from '../img/pausebutton.jpg'
-import like from '../img/like.png';
-import dislike from '../img/dislike.png';
-import acc from '../img/acc.png';
-import hr from '../img/hr.png';
-
-import sweat from '../img/sweat.png';
-import temp from '../img/temp.png';
-
-
-import ReactTable from 'react-table';
 import 'react-table/react-table.css'
 import './PlayScenarioContainer.css'
 import queryString from 'query-string';
-import setAuthorizationToken from './setAuthorizationToken.js'
-
 import PhysioContainer from './PhysioContainer.js';
-
 import ScanMonitorContainer from './ScanMonitorContainer.js';
-
-
 class NameForm extends Component {
 
   constructor(props) {
@@ -122,10 +106,6 @@ class NameForm extends Component {
 				});
 
 			}else{
-				var error= {
-					flag:1,
-					message:'Major problem this is then ent]'
-				}
 			}
 			
 
@@ -178,7 +158,7 @@ class NameForm extends Component {
 		var scenarioTime= this.state.scenarioTime;
 		var ind=-1;
 		nodes.forEach(function(node,index){
-			if(node.time==scenarioTime-timeLeft){
+			if(node.time===scenarioTime-timeLeft){
 				ind=index;
 			}
 		});
@@ -187,19 +167,19 @@ class NameForm extends Component {
 		}
 	}
 	playbuttonTriggered(){
-		if(this.state.play==0){
+		if(this.state.play===0){
 			this.setState({play:1});
-			var abb=setInterval(function(){
+			setInterval(function(){
 
 				var playStatus=this.state.playStatus;
 				playStatus.flashCounter=(playStatus.flashCounter+1)%2;
 				this.selectNode();
-				if(playStatus.timeleft==0||this.state.play==0){
+				if(playStatus.timeleft===0||this.state.play===0){
 					
 				}else{
-					playStatus.timeleft=playStatus.timeleft-1;
+					playStatus.timeleft-=1;
 				}
-				this.setState(playStatus:playStatus);
+				this.setState({playStatus:playStatus});
 			}.bind(this), 1000);
 		}else{
 			this.setState({play:0})
@@ -224,15 +204,14 @@ class NameForm extends Component {
 					document.getElementById('ratingBarform')['points'].value=rating;
 				};
 
-			this.setState(nodes:nodes);
+			this.setState({nodes:nodes});
 		}
 	}
 	findRoleIndex(str){
-		var options=[];
 		var index=-1;
 		if(this.state&& this.state.roles&& this.state.roles.length>0){
 			this.state.roles.forEach(function(role,i){
-				if(role.ROLE_NAME==str){
+				if(role.ROLE_NAME===str){
 					index=i;
 				}
 			});
@@ -244,14 +223,11 @@ class NameForm extends Component {
 		if(nodes){
 			var ind=-1;
 			nodes.forEach(function(node,index){
-				if(node.selected==1){
+				if(node.selected===1){
 					ind=index;
 				}
 			});
 			if(ind>-1){
-
-				var that=this;
-
 				return(
 					<div>
 					<br/>
@@ -322,10 +298,6 @@ class NameForm extends Component {
 
 
 	displayRatingBar(){
-
-		const play_pause={
-		width:'60px'
-		}
 		var style={
 			 'text-align': 'center',
 			  'vertical-align': 'middle'
@@ -337,7 +309,7 @@ class NameForm extends Component {
 		if(nodes){
 			var ind=-1;
 			nodes.forEach(function(node,index){
-				if(node.selected==1){
+				if(node.selected===1){
 					ind=index;
 				}
 			});
@@ -358,7 +330,7 @@ class NameForm extends Component {
 				var ratingBar=[];
 
 
-				if(nodes[ind].completed && nodes[ind].completed==true){
+				if(nodes[ind].completed && nodes[ind].completed===true){
 					ratingBar.push(
 						<div>
 						<Col sm={6}>
@@ -418,16 +390,9 @@ class NameForm extends Component {
 
 
 	displayRatingBarList(){
-
-		const play_pause={
-		width:'60px'
-		}
 		var style={
 			 'text-align': 'center',
 			  'vertical-align': 'middle'
-		}
-		var style1={
-			 'color': 'red'
 		}
 		var nodes=this.state.nodes;
 		var ratingBar=[];
@@ -439,7 +404,7 @@ class NameForm extends Component {
 				if(!nodes[ind].rating){
 
 
-					if(nodes[ind].completed && nodes[ind].completed==true){
+					if(nodes[ind].completed && nodes[ind].completed===true){
 						ratingBar.push(
 							<Row className="row212131">
 								<Col sm={12}>
@@ -574,20 +539,20 @@ class NameForm extends Component {
 			var r = 20;
 			var cs =50;
 			var legend=that.findRoleIndex(node.role);
-			if(node.label=='Start'){
+			if(node.label==='Start'){
 				color="rgba(46, 139, 87,1)";
 				r=10;
 				cs=10;
 
-			}else if(node.label=='behavioral'){
+			}else if(node.label==='behavioral'){
 				color="rgba(255, 182,193,1)";
 				r=width/80;
 
-			}else if(node.label=='psychomotor'){
+			}else if(node.label==='psychomotor'){
 				color="rgba(30,144,255,1)";
 				r=width/80;
 
-			}else if(node.label=='cognitive'){
+			}else if(node.label==='cognitive'){
 				color="rgba(75,0,130,1)";
 				r=width/80;
 			}else{
@@ -603,11 +568,11 @@ class NameForm extends Component {
 			for(var i=0;i<index;i++){				
 				var temptime=((nodes[i].time/scenarioTime)*width)+20;
 				if(Math.abs(time-temptime)<=(r*2+10)){
-					count=count+1;
+					count+=1;
 				}
 			}
 			var cyval =height+18-(count)*(r+5)*2-cs;
-			if(node.selected==1){
+			if(node.selected===1){
 				var color2="rgba(255, 240, 0,1)";
 				circles.push(
 				<circle cx={time} cy={cyval} fill={color2} r={r+10} onClick={() => that.selectEvent(index)}></circle>
@@ -630,7 +595,7 @@ class NameForm extends Component {
 					flash=(that.state.playStatus.flashCounter)%2;
 					color1="green";
 				}
-				if(flash==0){
+				if(flash===0){
 				circles.push(
 				<circle cx={time} cy={cyval} fill={color1} r={r+5} onClick={() => that.selectEvent(index)}></circle>
 				);
@@ -641,7 +606,7 @@ class NameForm extends Component {
 				<circle cx={time} cy={cyval} fill={color} r={r} onClick={() => that.selectEvent(index)}></circle>
 				);
 				circles.push(
-				<text x={time+r+5} y={cyval+r/2} font-family="sans-serif" font-size="25px" fill="(0,0,0,0.5)">{legend+1}</text>
+				<text x={time+r+5} y={cyval+r/2} font-family="sans-serif" font-size="13px" fill="(0,0,0,0.5)">{legend+1}</text>
 				);
 
 		});
@@ -651,7 +616,7 @@ class NameForm extends Component {
 			)
 			var str= "rotate(0 "+(i*(width/10)+20)+","+290+")";
 			circles.push(
-			 <text x={i*(width/10)+28} y={height+14} font-family="sans-serif" font-size="15px" transform={str} fill="(0,0,0,0.5)">{Math.round((scenarioTime/10)*i)}</text>
+			 <text x={i*(width/10)+28} y={height+14} font-family="sans-serif" font-size="13px" transform={str} fill="(0,0,0,0.5)">{Math.round((scenarioTime/10)*i)}</text>
 			)
 		}
 
@@ -667,9 +632,9 @@ class NameForm extends Component {
 				<circle cx={width+20} cy={height} fill="rgba(213, 93, 9,1)" r={10}></circle>
 		);
 
-		if(this.state.play==0){
+		if(this.state.play===0){
 			circles.push(<line x1={20} y1={height} x2={upto} y2={height} stroke="rgba(213, 93, 9,0.4)" strokeWidth={40} />)
-		}else if(this.state.play==1){
+		}else if(this.state.play===1){
 			circles.push(<line x1={20} y1={height} x2={upto} y2={height} stroke="rgba(213, 93, 9,0.4)" strokeWidth={49} />)
 
 		}
@@ -684,7 +649,6 @@ class NameForm extends Component {
 	}
 
 	displayLegend(){
-		var that = this;
 		var circles=[];
 		var width=0;
 		if(document.getElementById("gridsize")){
@@ -703,7 +667,7 @@ class NameForm extends Component {
 				);
 			
 			circles.push(
-			 <text x={40} y={60} font-family="sans-serif" font-size="25px" fill="(0,0,0,0.5)">Psychomotor</text>
+			 <text x={40} y={60} font-family="sans-serif" font-size="13px" fill="(0,0,0,0.5)">Psychomotor</text>
 			)
 
 			circles.push(
@@ -711,7 +675,7 @@ class NameForm extends Component {
 				);
 
 			circles.push(
-			 <text x={155} y={60} font-family="sans-serif" font-size="25px" fill="(0,0,0,0.5)">Cognitive</text>
+			 <text x={155} y={60} font-family="sans-serif" font-size="13px" fill="(0,0,0,0.5)">Cognitive</text>
 			)
 			
 			circles.push(
@@ -719,7 +683,7 @@ class NameForm extends Component {
 				);
 
 			circles.push(
-			 <text x={270} y={60} font-family="sans-serif" font-size="25px" fill="(0,0,0,0.5)">Behavioral</text>
+			 <text x={270} y={60} font-family="sans-serif" font-size="13px" fill="(0,0,0,0.5)">Behavioral</text>
 			)
 
 			circles.push(
@@ -736,7 +700,7 @@ class NameForm extends Component {
 				dist=dist+6*str.length+40;
 				
 				circles.push(
-					<text x={tempx-15} y={tempy+5} font-family="sans-serif" font-size="25px" fill="(0,0,0,0.5)">{i+1}</text>
+					<text x={tempx-15} y={tempy+5} font-family="sans-serif" font-size="13px" fill="(0,0,0,0.5)">{i+1}</text>
 				)
 
 				circles.push(
@@ -784,7 +748,7 @@ class NameForm extends Component {
 		width:'30px'
 		}
 		var that=this;
-		if(this.state.play==0){
+		if(this.state.play===0){
 			return(<img onClick={()=>{that.playbuttonTriggered()}} style={play_pause} alt="logo" src={play} />);
 		}else{
 			return(<img onClick={()=>{that.playbuttonTriggered()}} style={play_pause} alt="logo" src={pause} />);
@@ -847,7 +811,7 @@ class NameForm extends Component {
 					//window.location.href = "./";
 
 				}
-			}.bind(this))
+			})
 			.catch(function (error) {
   			});
 
@@ -917,7 +881,7 @@ class NameForm extends Component {
 	  		dicipline=dicipline.trim();
 	  		
 	  	  	var flag=0;
-	  	  	if (flag==0){
+	  	  	if (flag===0){
 	  	  		var trainee={
 	  	  			traineefname:traineefname,
 	  				traineelname:traineelname,
@@ -934,7 +898,7 @@ class NameForm extends Component {
   	  	}
   	  	});
   	  	
-  		if(masterFlag==0){
+  		if(masterFlag===0){
   			this.setState({trainee:allTrainees});	
   		}
   	
@@ -1091,7 +1055,7 @@ class NameForm extends Component {
   		});
 		
 
-		if(flag==0){
+		if(flag===0){
 			return(
 			<h4>Please rate all events to save </h4>
 			);
@@ -1122,9 +1086,6 @@ class NameForm extends Component {
 }
 
   render(){
-  	const divStyle = {
-  		width: '200px'
-	};
 	const timelineStyle= {
 		"background-color":"white",
 		"border":"2px dotted grey"
@@ -1133,19 +1094,6 @@ class NameForm extends Component {
 		'font-size':'12px'
 	}
 	if(this.state.trainee){
-		const play_pause={
-		width:'55px',
-		padding:'5px'
-		}
-
-		const boxPhysio={
-		border: "1px solid black",
-		height:"62px",
-		padding:"5px",
-		"background-color": "#ffd9cc"
-		}
-
-
 	return (
 		<Grid>
 			<Col sm={12}>
@@ -1211,7 +1159,7 @@ class NameForm extends Component {
 }else{
 
 
-	if(this.state.loaded==0){
+	if(this.state.loaded===0){
 		return(
 			<h1>Loading</h1>
 			)

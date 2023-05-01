@@ -1,23 +1,16 @@
 /*jslint node: true, esversion:6 */
 import React, { Component } from 'react';
-import { Row, Grid, Panel, formgroups, Alert} from 'react-bootstrap';
-import { Navbar, Nav, NavItem, NavDropdown, MenuItem, FormGroup, FormControl, Button, InputGroup, Glyphicon, Col} from 'react-bootstrap';
+import {Row} from 'react-bootstrap';
+import {Col} from 'react-bootstrap';
 //import './NameForm.css'; 
-import Form from 'react-bootstrap-form';
+
 import axios from 'axios';
 import backendlink from '../../config/links.js';
-
-import setAuthorizationToken from './setAuthorizationToken.js'
-
-import ReactTable from 'react-table';
 import 'react-table/react-table.css'
-import queryString from 'query-string';
 import acc from '../img/acc.png';
 import hr from '../img/hr.png';
-
 import sweat from '../img/sweat.png';
 import temp from '../img/temp.png';
-
 import './PhysioContainer.js' 
 
 
@@ -64,7 +57,6 @@ class NameForm extends Component {
     		params: params
   		})
 		.then(function (response) {
-			var check = response.data;
 			// if(check&&check.error){
 			// 	window.location.href = "./login?message="+check.message;
 			// }
@@ -79,7 +71,7 @@ class NameForm extends Component {
 			});
 
 			
-			if(data.length==0){
+			if(data.length===0){
 				this.setState({
 					active:false
 				});	
@@ -128,7 +120,7 @@ class NameForm extends Component {
 
 	var activeS = "No or Waiting";
 	if(this.state.active){
-		var activeS = "Yes";
+		activeS = "Yes";
 	}
 	
     return (

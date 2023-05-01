@@ -1,24 +1,10 @@
 /*jslint node: true, esversion:6 */
 import React, { Component } from 'react';
-import { Row, Grid, Panel, formgroups, Alert} from 'react-bootstrap';
-import { Navbar, Nav, NavItem, NavDropdown, MenuItem, FormGroup, FormControl, Button, InputGroup, Glyphicon, Col,Modal} from 'react-bootstrap';
+import { Row} from 'react-bootstrap';
+import {Col} from 'react-bootstrap';
 //import './NameForm.css'; 
-import Form from 'react-bootstrap-form';
 import axios from 'axios';
 import backendlink from '../../config/links.js';
-
-import setAuthorizationToken from './setAuthorizationToken.js'
-
-
-import ReactTable from 'react-table';
-import queryString from 'query-string';
-
-import FormJson from "react-jsonschema-form";
-
-
-import  {LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend} from 'recharts';
-
-
 import './form.css'
 
 
@@ -28,13 +14,6 @@ class NameForm extends Component {
 
 	constructor(props) {
 		super(props);
-		var course_id=this.props.course_id;
-		var goals=this.props.goals;
-		var heading = this.props.heading;
-		var assessment=this.props.assessment;
-		   
-		
-
 		this.state = {
 			connectedDevices:[]
 		};
@@ -66,7 +45,6 @@ class NameForm extends Component {
 		.then(function (response) {
 			
 			var check = response.data;
-			var traineeHist=[];
 			if(check&&check.error){
 				window.location.href = "./login?message="+check.message;
 			}

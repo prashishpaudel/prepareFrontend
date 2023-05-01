@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import { Row, Grid, Panel, formgroups, Alert} from 'react-bootstrap';
-import { Navbar, Nav, NavItem, NavDropdown, MenuItem, FormGroup, FormControl, Button, InputGroup, Glyphicon, Col, Tab} from 'react-bootstrap';
+import React from 'react';
+import { Alert} from 'react-bootstrap';
+import {Button} from 'react-bootstrap';
 
 class AlertDismissible extends React.Component {
   constructor(props) {

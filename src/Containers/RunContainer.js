@@ -1,13 +1,10 @@
 /*jslint node: true, esversion:6 */
 import React, { Component } from 'react';
-import { Row, Grid, Panel, formgroups, Alert} from 'react-bootstrap';
-import { Navbar, Nav, NavItem, NavDropdown, MenuItem, FormGroup, FormControl, Button, InputGroup, Glyphicon, Col} from 'react-bootstrap';
+import { Row, Grid} from 'react-bootstrap';
+import {Col} from 'react-bootstrap';
 import '../Views/NameForm.css';
-import Form from 'react-bootstrap-form';
 import axios from 'axios';
 import backendlink from '../../config/links.js';
-import { LinkContainer } from 'react-router-bootstrap';
-import setAuthorizationToken from '../Containers/setAuthorizationToken.js'
 import ReactTable from 'react-table';
 import 'react-table/react-table.css';
 import './RunContainer.css';
@@ -65,7 +62,7 @@ class NameForm extends Component {
   			scenario_id:scenario_id,
   		}
   		axios.defaults.headers.common['authenticationtoken'] = localStorage.jwtToken;
-  		if(flag==0){
+  		if(flag===0){
   			axios.get(backendlink.backendlink+'/deletescenario', {
 	    		params: params
   			})
@@ -78,7 +75,7 @@ class NameForm extends Component {
 
 				if(data.length>0){
 
-					tables.columns= new Array();
+					tables.columns=[];
 				
 				Object.keys(data[0]).forEach(function (value){
 				var temp = {};
@@ -113,13 +110,13 @@ class NameForm extends Component {
   		scenarioname=scenarioname.trim();
   		timeduration=timeduration.trim();
   		var flag=0;
-  		if(isNaN(timeduration)||timeduration.length==0){
+  		if(isNaN(timeduration)||timeduration.length===0){
   			document.getElementById("sduration").innerHTML=" *This should only be a number";
   			flag=1;
   		}else{
   			document.getElementById("sduration").innerHTML="";
   		}
-  		if(scenarioname.length==0){
+  		if(scenarioname.length===0){
   			document.getElementById("sname").innerHTML=" *Please enter the Scenario Name ";
   			flag=1;
   		}else{
@@ -131,7 +128,7 @@ class NameForm extends Component {
   			scenario_name:scenarioname,
   			scenario_time:Number(timeduration)*60
   		}
-  		if(flag==0){
+  		if(flag===0){
   			axios.defaults.headers.common['authenticationtoken'] = localStorage.jwtToken;
   			axios.get(backendlink.backendlink+'/createscenario', {
 	    		params: params
@@ -159,7 +156,7 @@ class NameForm extends Component {
 				});
 			});
 
-					tables.columns= new Array();
+					tables.columns= [];
 				
 				Object.keys(data[0]).forEach(function (value){
 				var temp = {};
@@ -204,8 +201,6 @@ class NameForm extends Component {
     		
     		var tables={};
 			var data=response.data;	
-			var that=this;
-			
 			data.forEach(function(row){
 				if(row['scenario_id']){
 					var runScenario='/playScenario?scenario_id='+row['scenario_id'];
@@ -225,8 +220,7 @@ class NameForm extends Component {
 			tables.rows=data;
 			if(data.length>0){
 				
-				tables.columns= new Array();
-				
+				tables.columns= [];
 				Object.keys(data[0]).forEach(function (value){
 				var temp = {};
 				temp.Header=  value;

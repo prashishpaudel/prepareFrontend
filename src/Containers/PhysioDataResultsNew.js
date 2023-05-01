@@ -1,18 +1,8 @@
 /*jslint node: true, esversion:6 */
 import React, { Component } from "react";
-import { Row, Grid, Panel, formgroups, Alert } from "react-bootstrap";
+import { Row } from "react-bootstrap";
 import moment from 'moment';
 import {
-  Navbar,
-  Nav,
-  NavItem,
-  NavDropdown,
-  MenuItem,
-  FormGroup,
-  FormControl,
-  Button,
-  InputGroup,
-  Glyphicon,
   Col,
   ListGroup,
   ListGroupItem
@@ -23,34 +13,19 @@ import {
   Line,
   XAxis,
   YAxis,
-  CartesianGrid,
   Tooltip,
-  Legend,
   Label
 } from "recharts";
-
-import Form from "react-bootstrap-form";
 import axios from "axios";
 import backendlink from "../../config/links.js";
-
-import setAuthorizationToken from "./setAuthorizationToken.js";
-
-import ReactTable from "react-table";
 import "./PhysioDataResults.css";
-import queryString from "query-string";
-import acc from "../img/acc.png";
-import hr from "../img/hr.png";
-
-import sweat from "../img/sweat.png";
-import temp from "../img/temp.png";
-
 import "./PhysioContainer.js";
 
 
 
-const CustomizedDot = React.createClass({
-  render() {
-    const { cx, cy, stroke, payload, value } = this.props;
+const CustomizedDot = (props) =>{
+
+    const { cx, cy, payload} = props;
 
     // console.log(payload);
     // return (
@@ -99,8 +74,8 @@ const CustomizedDot = React.createClass({
         <path d="M517.12 53.248q95.232 0 179.2 36.352t145.92 98.304 98.304 145.92 36.352 179.2-36.352 179.2-98.304 145.92-145.92 98.304-179.2 36.352-179.2-36.352-145.92-98.304-98.304-145.92-36.352-179.2 36.352-179.2 98.304-145.92 145.92-98.304 179.2-36.352zM663.552 261.12q-15.36 0-28.16 6.656t-23.04 18.432-15.872 27.648-5.632 33.28q0 35.84 21.504 61.44t51.2 25.6 51.2-25.6 21.504-61.44q0-17.408-5.632-33.28t-15.872-27.648-23.04-18.432-28.16-6.656zM373.76 261.12q-29.696 0-50.688 25.088t-20.992 60.928 20.992 61.44 50.688 25.6 50.176-25.6 20.48-61.44-20.48-60.928-50.176-25.088zM520.192 602.112q-51.2 0-97.28 9.728t-82.944 27.648-62.464 41.472-35.84 51.2q-1.024 1.024-1.024 2.048-1.024 3.072-1.024 8.704t2.56 11.776 7.168 11.264 12.8 6.144q25.6-27.648 62.464-50.176 31.744-19.456 79.36-35.328t114.176-15.872q67.584 0 116.736 15.872t81.92 35.328q37.888 22.528 63.488 50.176 17.408-5.12 19.968-18.944t0.512-18.944-3.072-7.168-1.024-3.072q-26.624-55.296-100.352-88.576t-176.128-33.28z" />
       </svg>
     );
-  }
-});
+  
+};
 
 const CustomTooltip = ({active, payload, label})=> {
   if (active)
@@ -114,17 +89,17 @@ const CustomTooltip = ({active, payload, label})=> {
 
 const AxisLabel = ({ axisType, x=-100, y=10, width, height, stroke, children }) => {
   children = children.replaceAll("_"," ");
-  if (children.indexOf('Temperature') != -1)
+  if (children.indexOf('Temperature') !== -1)
   {
-    children = children + ' (°C)'
+    children += ' (°C)'
   }
-  else if (children.indexOf('Heart') != -1)
+  else if (children.indexOf('Heart') !== -1)
   {
-    children = children + ' (BPM)';
+    children += ' (BPM)';
   }
-  else if (children.indexOf('Galvanic') != -1)
+  else if (children.indexOf('Galvanic') !== -1)
   {
-    children = children + ' (µS)'
+    children += ' (µS)'
   }
   return (
     <text x={x} y={y} transform={'rotate(270)'} textAnchor="middle" stroke={stroke} className="recharts-label">
@@ -165,7 +140,6 @@ class NameForm extends Component {
     var labels= this.state.labels;
     var startTime = pp.startTime;
     var endTime = pp.endTime;
-    var section = pp.section;
     var selectedTimestamp = pp.selectedTimestamp;
     if (!physioData) {
       axios.defaults.headers.common["authenticationtoken"] =
@@ -209,7 +183,7 @@ class NameForm extends Component {
         .catch(function(error) {});
     }
 
-    if (this.state.selectedTimestamp != pp.selectedTimestamp) {
+    if (this.state.selectedTimestamp !== pp.selectedTimestamp) {
       this.setState({
         selectedTimestamp: Math.round(selectedTimestamp / 1000)
       });
@@ -225,9 +199,6 @@ class NameForm extends Component {
 
     var startTime = pp.startTime;
     var endTime = pp.endTime;
-    var section = pp.section;
-
-
     var selectedTimestamp = pp.selectedTimestamp;
 
     if (!physioData) {
@@ -271,7 +242,7 @@ class NameForm extends Component {
         .catch(function(error) {});
     }
 
-    if (this.state.selectedTimestamp != pp.selectedTimestamp) {
+    if (this.state.selectedTimestamp !== pp.selectedTimestamp) {
      
       this.setState({
         selectedTimestamp: Math.round(selectedTimestamp / 1000)
@@ -294,7 +265,7 @@ class NameForm extends Component {
    
 
     labels.forEach(function(label, index) {
-      if (index == section) {
+      if (index === section) {
         sideMenu.push(
           <ListGroupItem
             className="Sidemenuphysio383933"
@@ -356,7 +327,7 @@ class NameForm extends Component {
   
         physioData[sec].event = 1;
 
-        if (selectedTimestamp && selectedTimestamp == echTimeStamp) {
+        if (selectedTimestamp && selectedTimestamp === echTimeStamp) {
           physioData[sec].selected = 1;
         } else {
           physioData[sec].selected = 0;
@@ -367,10 +338,8 @@ class NameForm extends Component {
    
 
     labels.forEach(function(eachLabel, index) {
-      if (index == section) {
-        var interval = 3;
+      if (index === section) {
         if (physioData && physioData.length) {
-          interval = Math.round(physioData.length / 5);
         }
        
         graphs.push(
@@ -388,8 +357,8 @@ class NameForm extends Component {
                   data={physioData}
                   margin={{ top: 5, right: 30, left: 20, bottom: 40 }}
                 >
-                  <XAxis dataKey="second" type="number" domain={['dataMin', 'dataMax']} tickFormatter = {(tick) => moment().startOf('day').seconds(tick).format('m:ss')} >
-                    <Label value="Time (minutes:seconds)" offset={0, -10} position="insideBottom" />
+                  <XAxis dataKey="second" type="number" domain={['dataMin', 'dataMax']} tickFormatter={(tick) => moment().startOf('day').seconds(tick).format('m:ss')} >
+                    <Label value="Time (minutes:seconds)" offset={0 -10} position="insideBottom"/>
                   </XAxis>
 
                   <YAxis
@@ -402,11 +371,11 @@ class NameForm extends Component {
                     label={<AxisLabel axisType='yAxis'>{eachLabel}</AxisLabel>}
                    type="number"
                  //  domain={[dataMin => (dataMin - Math.round((dataMax - dataMin) * .1)), dataMax => (dataMax + Math.round((dataMax-dataMin) * .1))]}
-                 domain = {['dataMin', 'dataMax']}
+                 domain={['dataMin', 'dataMax']}
                 
-                 tickFormatter = {(tick) => parseFloat(tick).toFixed(3)}
+                 tickFormatter={(tick) => parseFloat(tick).toFixed(3)}
                   />
-                  <Tooltip content = {<CustomTooltip />} />
+                  <Tooltip content={<CustomTooltip />}/>
                   <Line
                     type="monotone"
                     dataKey={eachLabel}
@@ -428,37 +397,12 @@ class NameForm extends Component {
   
 
   render() {
-    var physioData = this.state.physioData;
-    const play_pause = {
-      width: "45px",
-      padding: "5px"
-    };
-
-    const boxPhysio = {
-      border: "1px solid black",
-      height: "60px",
-      padding: "2px",
-      "background-color": "#ffd9cc"
-    };
-
-    const data = [
-      { name: "Page A", uv: 4000, pv: 2400, amt: 2400 },
-      { name: "Page B", uv: 3000, pv: 1398, amt: 2210 },
-      { name: "Page C", uv: 2000, pv: 9800, amt: 2290 },
-      { name: "Page D", uv: 2780, pv: null, amt: 2000 },
-      { name: "Page E", uv: 1890, pv: 4800, amt: 2181 },
-      { name: "Page F", uv: 2390, pv: 3800, amt: 2500 },
-      { name: "Page G", uv: 3490, pv: 4300, amt: 2100 }
-    ];
-
-    var physioData = this.state.physioData;
-
-    if (this.state.loaded == 0) {
+    if (this.state.loaded === 0) {
       return (
         <div>
           <center>
             <h5>PLEASE WAIT - LOADING</h5>
-            <img src="https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif" />
+            <img src="https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif"alt=""/>
           </center>
         </div>
       );

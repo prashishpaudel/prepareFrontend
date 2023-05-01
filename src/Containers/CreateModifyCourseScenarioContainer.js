@@ -1,14 +1,9 @@
 /*jslint node: true, esversion:6 */
 import React, { Component } from 'react';
-import { Row, Grid, Panel, formgroups, Alert} from 'react-bootstrap';
-import { Navbar, Nav, NavItem, NavDropdown, MenuItem, FormGroup, FormControl, Button, InputGroup, Glyphicon, Col} from 'react-bootstrap';
-
-import Form from 'react-bootstrap-form';
+import { Row, Panel} from 'react-bootstrap';
+import { Button, Col} from 'react-bootstrap';
 import axios from 'axios';
 import backendlink from '../../config/links.js';
-import { LinkContainer } from 'react-router-bootstrap';
-import setAuthorizationToken from '../Containers/setAuthorizationToken.js' 
-import ReactTable from 'react-table';
 import 'react-table/react-table.css';
 import '../Views/NameForm.css';
 import './CreateModifyCourseScenarioContainer.css';
@@ -53,14 +48,14 @@ class CreateModifyCourseScenarioContainer extends Component {
   			flag=1;
   		}
 
-  		if(this.state && this.state.scenarioRoles && this.state.scenarioRoles.length==0){
+  		if(this.state && this.state.scenarioRoles && this.state.scenarioRoles.length===0){
   			flag=1;
   		}
   		
   		
 
   		
-  		if(flag==0){
+  		if(flag===0){
   			var params=this.state.scenarioDetails;
   			params.roles=this.state.scenarioRoles;
   			params.course_id=this.state.course_id
@@ -68,12 +63,9 @@ class CreateModifyCourseScenarioContainer extends Component {
   			axios.get(backendlink.backendlink+'/createscenario', {
 	    		params: params
   			})
-			.then(function (response) {
-				
+			.then(function (response) {				
 				var tables={};
-			var data=response.data;	
-			var that=this;
-			
+			var data=response.data;				
 			data.forEach(function(row){
 				// if(row['scenario_id']){
 				// 	var editScenario='/editScenario?scenario_id='+row['scenario_id'];
@@ -93,7 +85,7 @@ class CreateModifyCourseScenarioContainer extends Component {
 			tables.rows=data;
 			if(data.length>0){
 				
-				tables.columns= new Array();
+				tables.columns= [];
 				
 				Object.keys(data[0]).forEach(function (value){
 				var temp = {};
@@ -147,20 +139,20 @@ class CreateModifyCourseScenarioContainer extends Component {
   		scenarioname=scenarioname.trim();
   		timeduration=timeduration.trim();
   		var flag=0;
-  		if(isNaN(timeduration)||timeduration.length==0){
+  		if(isNaN(timeduration)||timeduration.length===0){
   			document.getElementById("sduration").innerHTML=" *This should only be a number";
   			flag=1;
   		}else{
   			document.getElementById("sduration").innerHTML="";
   		}
-  		if(scenarioname.length==0){
+  		if(scenarioname.length===0){
   			document.getElementById("sname").innerHTML=" *Please enter the Scenario Name ";
   			flag=1;
   		}else{
   			document.getElementById("sname").innerHTML="";
   		}
 
-  		if(category.length==0){
+  		if(category.length===0){
   			document.getElementById("category").innerHTML=" *Please enter the Category Name ";
   			flag=1;
   		}else{
@@ -174,7 +166,7 @@ class CreateModifyCourseScenarioContainer extends Component {
   			scenario_time:Number(timeduration)*60,
   			category:category
   		}
-  		if(flag==0){
+  		if(flag===0){
   			this.setState({
   				scenarioDetails:scenarioDetails,
   				scenarioInGeneration:1
@@ -204,8 +196,6 @@ class CreateModifyCourseScenarioContainer extends Component {
     		
     		var tables={};
 			var data=response.data;	
-			var that=this;
-			
 			data.forEach(function(row){
 				// if(row['scenario_id']){
 				// 	var editScenario='/editScenario?scenario_id='+row['scenario_id'];
@@ -225,7 +215,7 @@ class CreateModifyCourseScenarioContainer extends Component {
 			tables.rows=data;
 			if(data.length>0){
 				
-				tables.columns= new Array();
+				tables.columns= [];
 				
 				Object.keys(data[0]).forEach(function (value){
 				var temp = {};
@@ -266,20 +256,20 @@ addRole(){
   		roleNumber=roleNumber.trim();
   		
   		var flag=0;
-  		if(isNaN(roleNumber)||roleNumber.length==0){
+  		if(isNaN(roleNumber)||roleNumber.length===0){
   			document.getElementById("rLabel").innerHTML=" *Enter Number";
   			flag=1;
   		}else{
   			document.getElementById("rLabel").innerHTML="";
   		}
-  		if(roleLabel.length==0){
+  		if(roleLabel.length===0){
   			document.getElementById("numberRoles").innerHTML=" *Enter Role";
   			flag=1;
   		}else{
   			document.getElementById("numberRoles").innerHTML="";
   		}
   		document.getElementById("addRole").reset();
-  		if(flag==0){
+  		if(flag===0){
   			if(this.state && this.state.scenarioRoles){
   				var scenarioRoles = this.state.scenarioRoles;
   				var temp = {
@@ -346,12 +336,12 @@ addRolesPart(){
 				<tr>
 					<td  valign="bottom" ><b>Role:</b></td>
 	  				<td><input type="text" name="roleLabel" size="25" /></td>
-	  				<td><span id="rLabel" className= "warning"  ></span></td>		
+	  				<td><span id="rLabel" className="warning"  ></span></td>		
 	  			</tr>
 	  			<tr>
 					<td  valign="bottom" ><b>Number of Trainees:</b></td>
 	  				<td><input type="text" name="roleNumber" size="25" /></td>
-	  				<td><span id="numberRoles" className= "warning"  ></span></td>		
+	  				<td><span id="numberRoles" className="warning"  ></span></td>		
 	  			</tr>
 			</table>
 			<Button onClick={this.addRole.bind(this)}>Add Role</Button>
@@ -374,7 +364,7 @@ addRolesPart(){
 
 
  SenarioCreationDiv() {
-		if(this.state&&this.state.scenarioInGeneration==0){
+		if(this.state&&this.state.scenarioInGeneration===0){
 		return (
 			<form action="" id="createsenario">
 						<table>
@@ -382,18 +372,18 @@ addRolesPart(){
 							<tr>
 								<td width="160" valign="bottom" ><b>Scenario Name</b></td>
 	  							<td><input type="text" name="scenarioname" size="35" /></td>
-	  							<td><span id="sname" className= "warning"  ></span></td>
+	  							<td><span id="sname" className="warning"  ></span></td>
 	  							
 	  						</tr>
 	  						<tr>
 								<td valign="bottom"><b>Time Duration(Minutes) </b></td>
 								<td><input type="text" name="timeduration" size="35"/></td>
-								<td><span className= "warning" id="sduration" ></span></td>
+								<td><span className="warning" id="sduration" ></span></td>
 							</tr>	
 							<tr>
 								<td valign="bottom"><b>Type</b></td>
 								<td><input type="text" name="category" size="35"/></td>
-								<td><span className= "warning" id="category" ></span></td>
+								<td><span className="warning" id="category" ></span></td>
 							</tr>		
 						</table>			
 						</table>
@@ -430,7 +420,6 @@ addRolesPart(){
   
 
   	var rowsHtml=[];
-  	var rowsHtml1=[];
   	rowsHtml.push(
   		<Row className="rowHeader12321151">
   		<Col className="headercell134321" sm={5}>

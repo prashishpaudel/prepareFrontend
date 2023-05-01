@@ -1,14 +1,10 @@
 /*jslint node: true, esversion:6 */
 import React, { Component } from 'react';
-import { Row, Grid, Panel, formgroups, Alert} from 'react-bootstrap';
-import { Navbar, Nav, NavItem, NavDropdown, MenuItem, FormGroup, FormControl, Button, InputGroup, Glyphicon, Col} from 'react-bootstrap';
+import { Row, Grid, Panel} from 'react-bootstrap';
+import { Button, Col} from 'react-bootstrap';
 import './NameForm.css';
-import Form from 'react-bootstrap-form';
 import axios from 'axios';
 import backendlink from '../../config/links.js';
-import { LinkContainer } from 'react-router-bootstrap';
-import setAuthorizationToken from '../Containers/setAuthorizationToken.js'
-import ReactTable from 'react-table';
 import 'react-table/react-table.css'
 
 class NameForm extends Component { 
@@ -64,7 +60,7 @@ class NameForm extends Component {
   			scenario_id:scenario_id,
   		}
   		axios.defaults.headers.common['authenticationtoken'] = localStorage.jwtToken;
-  		if(flag==0){
+  		if(flag===0){
   			axios.get(backendlink.backendlink+'/deletescenario', {
 	    		params: params
   			})
@@ -77,7 +73,7 @@ class NameForm extends Component {
 
 				if(data.length>0){
 
-					tables.columns= new Array();
+					tables.columns= [];
 				
 				Object.keys(data[0]).forEach(function (value){
 				var temp = {};
@@ -114,20 +110,20 @@ class NameForm extends Component {
   		scenarioname=scenarioname.trim();
   		timeduration=timeduration.trim();
   		var flag=0;
-  		if(isNaN(timeduration)||timeduration.length==0){
+  		if(isNaN(timeduration)||timeduration.length===0){
   			document.getElementById("sduration").innerHTML=" *This should only be a number";
   			flag=1;
   		}else{
   			document.getElementById("sduration").innerHTML="";
   		}
-  		if(scenarioname.length==0){
+  		if(scenarioname.length===0){
   			document.getElementById("sname").innerHTML=" *Please enter the Scenario Name ";
   			flag=1;
   		}else{
   			document.getElementById("sname").innerHTML="";
   		}
 
-  		if(category.length==0){
+  		if(category.length===0){
   			document.getElementById("category").innerHTML=" *Please enter the Category Name ";
   			flag=1;
   		}else{
@@ -141,7 +137,7 @@ class NameForm extends Component {
   			scenario_time:Number(timeduration)*60,
   			category:category
   		}
-  		if(flag==0){
+  		if(flag===0){
   			axios.defaults.headers.common['authenticationtoken'] = localStorage.jwtToken;
   			axios.get(backendlink.backendlink+'/createscenario', {
 	    		params: params
@@ -154,7 +150,7 @@ class NameForm extends Component {
 
 				if(data.length>0){
 
-					tables.columns= new Array();
+					tables.columns= [];
 				
 				Object.keys(data[0]).forEach(function (value){
 				var temp = {};
@@ -199,7 +195,6 @@ class NameForm extends Component {
     		
     		var tables={};
 			var data=response.data;	
-			var that=this;
 			console.log(data);
 			data.forEach(function(row){
 
@@ -216,7 +211,7 @@ class NameForm extends Component {
 			tables.rows=data;
 			if(data.length>0){
 				
-				tables.columns= new Array();
+				tables.columns= [];
 				
 				Object.keys(data[0]).forEach(function (value){
 				var temp = {};
@@ -252,7 +247,6 @@ class NameForm extends Component {
 
 	displayRows(){
 		var rows=this.state.table.rows;
-		var columns=this.state.columns;
 		var trs=[];
 		var that=this;
 		trs.push(
@@ -300,18 +294,18 @@ class NameForm extends Component {
 							<tr>
 								<td width="160" valign="bottom" ><b>Scenario Name</b></td>
 	  							<td><input type="text" name="scenarioname" size="35" /></td>
-	  							<td><span id="sname" className= "warning"  ></span></td>
+	  							<td><span id="sname" className="warning"  ></span></td>
 	  							
 	  						</tr>
 	  						<tr>
 								<td valign="bottom"><b>Time Duration(Minutes) </b></td>
 								<td><input type="text" name="timeduration" size="35"/></td>
-								<td><span className= "warning" id="sduration" ></span></td>
+								<td><span className="warning" id="sduration" ></span></td>
 							</tr>	
 							<tr>
 								<td valign="bottom"><b>Category</b></td>
 								<td><input type="text" name="category" size="35"/></td>
-								<td><span className= "warning" id="category" ></span></td>
+								<td><span className="warning" id="category" ></span></td>
 							</tr>			
 						</table>
 					 	<Button onClick={this.createScenario.bind(this)}>Create Scenario</Button>

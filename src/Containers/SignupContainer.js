@@ -1,9 +1,7 @@
 /*jslint node: true, esversion:6 */
 import React, { Component } from 'react';
-import { Row, Grid, Panel, formgroups, Alert} from 'react-bootstrap';
-import { Navbar, Nav, NavItem, NavDropdown, MenuItem, FormGroup, FormControl, Button, InputGroup, Glyphicon, Col} from 'react-bootstrap';
-
-import Form from 'react-bootstrap-form';
+import { Row, Grid} from 'react-bootstrap';
+import { Button,Col} from 'react-bootstrap';
 import axios from 'axios';
 import backendlink from '../../config/links.js';
 
@@ -40,19 +38,19 @@ class NameForm extends Component {
     
     ['username','password','fname','lname','discipline','experience'].forEach(function(key){
     	
-    	if(params[key].length==0 && flag==0){
+    	if(params[key].length===0 && flag===0){
     		flag=1;	
     		errorMessage=key+' is not correct';
     	}
 
     });
 
-    if(flag==1){
+    if(flag===1){
     	alert(errorMessage);
 
     }
     
-      if(flag==0){
+      if(flag===0){
        
         axios.post(backendlink.backendlink+'/signup',params)
     .then(function (response) {
@@ -66,7 +64,7 @@ class NameForm extends Component {
       }
 
 
-    }.bind(this))
+    })
     .catch(function (error) {
         
       });
@@ -99,7 +97,7 @@ class NameForm extends Component {
         				<p><input type="text" name="fname"  placeholder="First Name"/></p>
         				<p><input type="text" name="lname"  placeholder="Last Name"/></p>
         				
-        				<input name= 'discipline' list="discipline"  placeholder="discipline" />
+        				<input name='discipline' list="discipline"  placeholder="discipline" />
         				<datalist id="discipline">
         					  
   						</datalist>
