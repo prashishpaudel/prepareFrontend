@@ -9,7 +9,7 @@ import FormJson from "react-jsonschema-form";
 import queryString from 'query-string';
 import './SpecificCourseContainer.css'
 
-class NameForm extends Component {
+class SpecificCoursePostFormContainer extends Component {
 
   constructor(props) {
     super(props);
@@ -316,4 +316,4 @@ participantInfoForm(){
 }
 
 
-export default NameForm; 
+export default SpecificCoursePostFormContainer; 

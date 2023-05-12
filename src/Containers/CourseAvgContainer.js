@@ -10,7 +10,7 @@ import CircularProgressbar from 'react-circular-progressbar';
 import 'react-table/react-table.css'
 
 
-class NameForm extends Component {
+class CourseAvgContainer extends Component {
 
 	constructor(props) {
 		super(props);
@@ -454,4 +454,4 @@ class NameForm extends Component {
 }
 
 
-export default NameForm; 
+export default CourseAvgContainer; 

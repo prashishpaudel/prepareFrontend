@@ -5,7 +5,7 @@ import { Button, Col} from 'react-bootstrap';
 import axios from 'axios';
 import backendlink from '../../config/links.js';
 import './LoginContainer.css'
-class NameForm extends Component {
+class LoginContainer extends Component {
 
   constructor(props) {
     super(props);
@@ -103,4 +103,4 @@ class NameForm extends Component {
 }
 
 
-export default NameForm; 
+export default LoginContainer; 

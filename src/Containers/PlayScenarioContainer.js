@@ -13,7 +13,7 @@ import './PlayScenarioContainer.css'
 import queryString from 'query-string';
 import PhysioContainer from './PhysioContainer.js';
 import ScanMonitorContainer from './ScanMonitorContainer.js';
-class NameForm extends Component {
+class PlayScenarioContainer extends Component {
 
   constructor(props) {
 	super(props);
@@ -1196,4 +1196,4 @@ class NameForm extends Component {
 }
 
 
-export default NameForm; 
+export default PlayScenarioContainer; 

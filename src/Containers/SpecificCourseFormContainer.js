@@ -30,7 +30,7 @@ import  {LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend} from 're
  
 
 
-class NameForm extends Component {
+class SpecificCourseFormContainer extends Component {
 
   constructor(props) {
     super(props);
@@ -471,4 +471,4 @@ class NameForm extends Component {
 }
 
 
-export default NameForm; 
+export default SpecificCourseFormContainer; 

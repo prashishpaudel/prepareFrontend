@@ -10,7 +10,7 @@ import 'react-table/react-table.css'
 
 
 
-class NameForm extends Component {
+class ResultsContainer3 extends Component {
 
   constructor(props) {
     super(props);
@@ -248,4 +248,4 @@ gotoSpec1(id,l_name){
 }
 
 
-export default NameForm; 
+export default ResultsContainer3; 

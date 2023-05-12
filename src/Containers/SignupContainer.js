@@ -9,7 +9,7 @@ import './LoginContainer.css'
 
 
 
-class NameForm extends Component {
+class SignupContainer extends Component {
 
   constructor(props) {
     super(props);
@@ -129,4 +129,4 @@ class NameForm extends Component {
 }
 
 
-export default NameForm; 
+export default SignupContainer; 

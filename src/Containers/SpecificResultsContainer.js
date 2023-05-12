@@ -31,7 +31,7 @@ var ts = require("timeseries-analysis");
 
 
                     
-class NameForm extends Component {
+class SpecificResultsContainer extends Component {
 
   constructor(props) {
     super(props);
@@ -1383,4 +1383,4 @@ const AverageSkills = React.createClass({
 }
 
 
-export default NameForm; 
+export default SpecificResultsContainer; 

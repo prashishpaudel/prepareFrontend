@@ -10,7 +10,7 @@ import 'react-table/react-table.css'
 import './CourseAnalyticsContainer.css';
 
 
-class NameForm extends Component {
+class CourseAnalyticsContainer extends Component {
 
   constructor(props) {
     super(props);
@@ -457,4 +457,4 @@ class NameForm extends Component {
 }
 
 
-export default NameForm; 
+export default CourseAnalyticsContainer; 

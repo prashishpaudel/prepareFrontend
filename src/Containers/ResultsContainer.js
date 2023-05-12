@@ -9,7 +9,7 @@ import ReactTable from 'react-table';
 import 'react-table/react-table.css'
 
 
-class NameForm extends Component {
+class ResultsContainer extends Component {
 
   constructor(props) {
     super(props);
@@ -119,4 +119,4 @@ class NameForm extends Component {
 }
 
 
-export default NameForm; 
+export default ResultsContainer; 

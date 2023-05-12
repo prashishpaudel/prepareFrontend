@@ -15,7 +15,7 @@ import './PhysioContainer.js'
 
 
 
-class NameForm extends Component {
+class PhysioContainer extends Component {
 
 	constructor(props) {
     	super(props);
@@ -166,4 +166,4 @@ class NameForm extends Component {
 }
 
 
-export default NameForm; 
+export default PhysioContainer; 

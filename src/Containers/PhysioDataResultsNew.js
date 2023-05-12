@@ -109,7 +109,7 @@ const AxisLabel = ({ axisType, x=-100, y=10, width, height, stroke, children }) 
   );
 };
 
-class NameForm extends Component {
+class PhysioDataResultsNew extends Component {
 
  
 
@@ -420,4 +420,4 @@ class NameForm extends Component {
   }
 }
 
-export default NameForm;
+export default PhysioDataResultsNew;

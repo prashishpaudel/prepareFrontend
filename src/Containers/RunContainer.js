@@ -9,7 +9,7 @@ import ReactTable from 'react-table';
 import 'react-table/react-table.css';
 import './RunContainer.css';
 
-class NameForm extends Component {
+class RunContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -283,4 +283,4 @@ class NameForm extends Component {
 }
 
 
-export default NameForm;  
+export default RunContainer;  

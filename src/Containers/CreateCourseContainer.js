@@ -8,7 +8,7 @@ import backendlink from '../../config/links.js';
 import 'react-table/react-table.css'
 import './CreateCourseContainer.css'
 // import FlashMessage from "react-native-flash-message";
-class NameForm extends Component {
+class CreateCourseContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -342,4 +342,4 @@ class NameForm extends Component {
 }
 
 
-export default NameForm;  
+export default CreateCourseContainer;  

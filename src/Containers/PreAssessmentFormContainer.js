@@ -26,7 +26,7 @@ import './DynamicFormContainer.css'
 
 
 
-class NameForm extends Component { 
+class PreAssessmentFormContainer extends Component { 
 
 	constructor(props) {
 		super(props);
@@ -863,4 +863,4 @@ class NameForm extends Component {
 }
 
 
-export default NameForm; 
+export default PreAssessmentFormContainer; 

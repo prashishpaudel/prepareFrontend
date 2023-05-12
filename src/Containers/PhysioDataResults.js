@@ -100,7 +100,7 @@ const CustomizedDot = React.createClass({
   }
 });
 
-class NameForm extends Component {
+class PhysioDataResults extends Component {
   constructor(props) {
     // console.log(props);
     super(props);
@@ -448,4 +448,4 @@ class NameForm extends Component {
   }
 }
 
-export default NameForm;
+export default PhysioDataResults;

@@ -17,7 +17,7 @@ import './SpecificCourseContainer.css'
 
 
 
-class NameForm extends Component {
+class SpecificCourseContainer extends Component {
 
   constructor(props) {
     super(props);
@@ -544,4 +544,4 @@ gotoPreSpec(id){
 }
 
 
-export default NameForm; 
+export default SpecificCourseContainer; 

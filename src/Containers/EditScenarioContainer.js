@@ -10,7 +10,7 @@ import 'react-table/react-table.css'
 import queryString from 'query-string';
 
 
-class NameForm extends Component {
+class EditScenarioContainer extends Component {
 
 	constructor(props) {
 		super(props);
@@ -588,7 +588,7 @@ class NameForm extends Component {
 		);
 
 		circles.push(
-			<text x={40} y={60} font-family="sans-serif" font-size="25px" fill="(0,0,0,0.5)">Psychomotor</text>
+			<text x={40} y={60} font-family="sans-serif" font-size="13px" fill="(0,0,0,0.5)">Psychomotor</text>
 		)
 
 		circles.push(
@@ -596,7 +596,7 @@ class NameForm extends Component {
 		);
 
 		circles.push(
-			<text x={155} y={60} font-family="sans-serif" font-size="25px" fill="(0,0,0,0.5)">Cognitive</text>
+			<text x={155} y={60} font-family="sans-serif" font-size="13px" fill="(0,0,0,0.5)">Cognitive</text>
 		)
 
 		circles.push(
@@ -604,7 +604,7 @@ class NameForm extends Component {
 		);
 
 		circles.push(
-			<text x={270} y={60} font-family="sans-serif" font-size="25px" fill="(0,0,0,0.5)">Behavioral</text>
+			<text x={270} y={60} font-family="sans-serif" font-size="13px" fill="(0,0,0,0.5)">Behavioral</text>
 		)
 
 		circles.push(
@@ -621,7 +621,7 @@ class NameForm extends Component {
 				dist = dist + 6 * str.length + 40;
 
 				circles.push(
-					<text x={tempx - 15} y={tempy + 5} font-family="sans-serif" font-size="25px" fill="(0,0,0,0.5)">{i + 1}</text>
+					<text x={tempx - 15} y={tempy + 5} font-family="sans-serif" font-size="13px" fill="(0,0,0,0.5)">{i + 1}</text>
 				)
 
 				circles.push(
@@ -716,7 +716,7 @@ class NameForm extends Component {
 				);
 
 				circles.push(
-					<text x={time + r + 2} y={cyval + r / 2} font-family="sans-serif" font-size="25px" fill="(0,0,0,0.5)">{legend + 1}</text>
+					<text x={time + r + 2} y={cyval + r / 2} font-family="sans-serif" font-size="13px" fill="(0,0,0,0.5)">{legend + 1}</text>
 				);
 
 
@@ -730,12 +730,12 @@ class NameForm extends Component {
 				)
 				var str = "rotate(0 " + (i * (width / 10) + 20) + "," + 290 + ")";
 				circles.push(
-					<text x={i * (width / 10) + 28} y={height + 14} font-family="sans-serif" font-size="15px" transform={str} fill="(0,0,0,0.5)">{Math.round((scenarioTime / 10) * i)}</text>
+					<text x={i * (width / 10) + 28} y={height + 14} font-family="sans-serif" font-size="13px" transform={str} fill="(0,0,0,0.5)">{Math.round((scenarioTime / 10) * i)}</text>
 				)
 			}
 
 			circles.push(
-				<text x={width / 2 - 100} y={height + 40} font-family="sans-serif" font-size="25px" fill="(0,0,0,0.5)">Seconds</text>
+				<text x={width / 2 - 100} y={height + 40} font-family="sans-serif" font-size="13px" fill="(0,0,0,0.5)">Seconds</text>
 			)
 
 
@@ -1059,4 +1059,4 @@ class NameForm extends Component {
 }
 
 
-export default NameForm; 
+export default EditScenarioContainer; 

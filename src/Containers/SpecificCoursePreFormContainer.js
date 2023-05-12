@@ -11,7 +11,7 @@ import './SpecificCourseContainer.css'
  
 
 
-class NameForm extends Component {
+class SpecificCoursePreFormContainer extends Component {
 
   constructor(props) {
     super(props);
@@ -385,4 +385,4 @@ participantInfoForm(){
 }
 
 
-export default NameForm; 
+export default SpecificCoursePreFormContainer; 

@@ -8,7 +8,7 @@ import backendlink from '../../config/links.js';
 import ReactTable from 'react-table';
 import 'react-table/react-table.css'
 
-class NameForm extends Component {
+class CreateModifyContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -429,4 +429,4 @@ addRolesPart(){
 }
 
 
-export default NameForm;  
+export default CreateModifyContainer;  

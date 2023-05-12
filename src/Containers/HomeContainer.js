@@ -10,7 +10,7 @@ import { LinkContainer } from 'react-router-bootstrap';
 import 'react-table/react-table.css'
 import './HomeContainer.css'
 
-class NameForm extends Component {
+class HomeContainer extends Component {
 
 	constructor(props) {
 		super(props);
@@ -146,4 +146,4 @@ class NameForm extends Component {
 }
 
 
-export default NameForm; 
+export default HomeContainer; 

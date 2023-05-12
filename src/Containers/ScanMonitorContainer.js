@@ -10,7 +10,7 @@ import './form.css'
 
 
 
-class NameForm extends Component { 
+class ScanMonitorContainer extends Component { 
 
 	constructor(props) {
 		super(props);
@@ -127,4 +127,4 @@ class NameForm extends Component {
 }
 
 
-export default NameForm; 
+export default ScanMonitorContainer; 

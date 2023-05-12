@@ -9,7 +9,7 @@ import 'react-table/react-table.css'
 import './CreateCourseContainer.css'
 
 
-class NameForm extends Component {
+class CreateCourseResultContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -243,4 +243,4 @@ class NameForm extends Component {
 }
 
 
-export default NameForm;  
+export default CreateCourseResultContainer;  

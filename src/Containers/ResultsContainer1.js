@@ -8,7 +8,7 @@ import axios from 'axios';
 import backendlink from '../../config/links.js';
 import 'react-table/react-table.css'
 import './RunContainer.css'
-class NameForm extends Component {
+class ResultsContainer1 extends Component {
 
   constructor(props) {
     super(props);
@@ -209,4 +209,4 @@ gotoSpec(id,l_name){
 }
 
 
-export default NameForm; 
+export default ResultsContainer1; 
