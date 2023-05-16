@@ -1,7 +1,7 @@
 /*jslint node: true, esversion:6 */
 import React, { Component } from 'react';
 import { Row, Grid, Panel } from 'react-bootstrap';
-import { Button, Col } from 'react-bootstrap';
+import { Button, Col, Table } from 'react-bootstrap';
 //import './NameForm.css';
 import axios from 'axios';
 import backendlink from '../../config/links.js';
@@ -18,6 +18,9 @@ class EditScenarioContainer extends Component {
 		this.state = {
 			loading: 0,
 			scenario_id: query.scenario_id,
+			lookupWordsTable: [""],
+			lookupSynonyms: [],
+			objectivesSelection: [],
 			table: {
 				sort: {
 					column: "age",
@@ -26,48 +29,124 @@ class EditScenarioContainer extends Component {
 				columns: [
 					{
 						Header: 'Event name',
-						accessor: 'EVENT_NAME'
+						accessor: 'EVENT_NAME',
+						width: 100,
+						Cell: props => (
+							<div
+								style={{
+									whiteSpace: 'nowrap',
+									overflow: 'auto',
+									overflow: 'hidden',
+									textOverflow: 'ellipsis',
+								}}
+								title={props.value}
+							>
+								{props.value}
+							</div>
+						),
+
 					},
 
 					{
 						Header: 'Role Label',
-						accessor: 'ROLE_NAME'
+						accessor: 'ROLE_NAME',
+						width: 130,
+						Cell: props => (
+							<div
+								style={{
+									whiteSpace: 'nowrap',
+									overflow: 'auto',
+									overflow: 'hidden',
+									textOverflow: 'ellipsis',
+								}}
+								title={props.value}
+							>
+								{props.value}
+							</div>
+						),
+
 					},
 					{
 						Header: 'Skill type',
-						accessor: 'SKILL_TYPE'
+						accessor: 'SKILL_TYPE',
+						width: 120
 					},
 					{
 						Header: 'Specific Skill',
-						accessor: 'SPECIFIC_SKILL'
+						accessor: 'SPECIFIC_SKILL',
+						width: 120,
+						Cell: props => (
+							<div
+								style={{
+									whiteSpace: 'nowrap',
+									overflow: 'auto',
+									overflow: 'hidden',
+									textOverflow: 'ellipsis',
+								}}
+								title={props.value}
+							>
+								{props.value}
+							</div>
+						),
 					},
 					{
 						Header: 'Time Start',
 						accessor: 'TIME_START'
 					},
 					{
-						Header: 'HEART RATE',
+						Header: 'Heart Rate',
 						accessor: 'HEART_RATE'
 					},
 					{
-						Header: 'SYSTOLIC BP',
+						Header: 'Systolic BP',
 						accessor: 'SYSTOLIC_BP'
 					},
 					{
-						Header: 'DIASTOLIC BP',
+						Header: 'Diastolic BP',
 						accessor: 'DISTOLIC_BP'
 					},
 					{
-						Header: 'SPO2',
+						Header: 'SPo2',
 						accessor: 'SPO2'
 					},
 					{
-						Header: 'R_RATE',
+						Header: 'R_Rate',
 						accessor: 'R_RATE'
 					},
 					{
-						Header: 'CARDIAC_RYTHM',
-						accessor: 'CARDIAC_RYTHM'
+						Header: 'Cardiac_Rythm',
+						accessor: 'CARDIAC_RYTHM',
+						width: 150,
+						Cell: props => (
+							<div
+								style={{
+									whiteSpace: 'nowrap',
+									overflow: 'auto',
+									overflow: 'hidden',
+									textOverflow: 'ellipsis',
+								}}
+								title={props.value}
+							>
+								{props.value}
+							</div>
+						),
+					}, {
+						Header: 'Lookup_Words_Synonyms',
+						accessor: 'LOOKUP_WORDS_SYNONYMS',
+						width: 250,
+						Cell: props => (
+							<div
+								style={{
+									whiteSpace: 'nowrap',
+									overflow: 'auto',
+									overflow: 'hidden',
+									textOverflow: 'ellipsis',
+								}}
+								title={props.value}
+							>
+								{props.value}
+							</div>
+						),
 					}
 				],
 				rows: [
@@ -78,6 +157,12 @@ class EditScenarioContainer extends Component {
 			}
 		};
 		this.changeObjectives = this.changeObjectives.bind(this);
+		this.handleObjectivesChange = this.handleObjectivesChange.bind(this);
+		//Bind LookUp Words Table Methods
+		this.handleAddRow = this.handleAddRow.bind(this);
+		this.handleInputChange = this.handleInputChange.bind(this);
+		this.saveRows = this.saveRows.bind(this);
+		this.handleSynonymnDelete = this.handleSynonymnDelete.bind(this);
 	}
 	componentDidMount() {
 		var params = {
@@ -98,7 +183,6 @@ class EditScenarioContainer extends Component {
 				var goals = [];
 				var goalsobjectives = response.data.goalsobjectives;
 				var objectives = [];
-
 
 				console.log(response.data.goalsobjectives);
 
@@ -126,6 +210,8 @@ class EditScenarioContainer extends Component {
 						goalsobjectives: goalsobjectives,
 						goals: goals
 
+					}, () => {
+						this.changeObjectives();
 					});
 
 				} else {
@@ -226,6 +312,11 @@ class EditScenarioContainer extends Component {
 		}
 
 	}
+
+
+
+
+
 	submitevent() {
 		var eventname = document.getElementById("createevent").elements["eventname"].value;
 		eventname = eventname.trim();
@@ -236,15 +327,12 @@ class EditScenarioContainer extends Component {
 		var timestart = document.getElementById("createevent").elements["timestart"].value;
 		timestart = timestart.trim();
 
-		var options1 = document.getElementById("createevent").elements["objectives"].options;
-		var objectives = [];
+		var objectives = this.state.objectivesSelection;
+		// check if objectives array is empty
+		if (objectives.length === 0) {
+			alert("Please select at least one objective");
+			return;
 
-		for (var i = 0, iLen = options1.length; i < iLen; i++) {
-			var opt = options1[i];
-
-			if (opt.selected) {
-				objectives.push(opt.value || opt.text);
-			}
 		}
 
 
@@ -344,7 +432,6 @@ class EditScenarioContainer extends Component {
 		}
 		if (flag === 0) {
 			console.log(objectives);
-			document.getElementById("createevent").reset();
 			var params = {
 				eventname: eventname,
 				skilltype: skilltype,
@@ -358,12 +445,17 @@ class EditScenarioContainer extends Component {
 				r_rate: r_rate,
 				cardiac_rhythm: cardiac_rhythm,
 				scenario_role_id: role,
-				objectives1: objectives.toString()
+				objectives1: objectives.toString(),
+				lookupSynonyms: this.state.lookupSynonyms.length > 0 ? JSON.stringify(this.state.lookupSynonyms) : null
 			}
+			console.log('Params to be sent', params)
+			// Clear the tables
+			this.setState({
+				lookupWordsTable: [""],
+				lookupSynonyms: []
+			});
 			axios.defaults.headers.common['authenticationtoken'] = localStorage.jwtToken;
-			axios.get(backendlink.backendlink + '/addevent', {
-				params: params
-			})
+			axios.post(backendlink.backendlink + '/addevent', params)
 				.then(function (response) {
 
 					var tables = this.state.table;
@@ -398,6 +490,11 @@ class EditScenarioContainer extends Component {
 				.catch(function (error) {
 
 				});
+			// Clear the objectivesSelection state and reset objectives options based on the default goal
+			this.setState({ objectivesSelection: [] }, () => {
+				this.changeObjectives();
+			});
+			document.getElementById("createevent").reset();
 		} else {
 
 		}
@@ -415,25 +512,33 @@ class EditScenarioContainer extends Component {
 		return index;
 	}
 
+
 	objectivesObjective() {
 		var options = [];
 		if (this.state && this.state.objectives && this.state.objectives.length > 0) {
-			this.state.objectives.forEach(function (objective) {
-				options.push(
-					<option value={objective}>{objective}</option>
-				);
-			});
-			this.changeObjectives();
-
+			var currentGoal = this.state.goalsobjectives.find(goal => JSON.parse(goal.GOAL_NAME).goalName === this.state.goal);
+			if (currentGoal) {
+				var currentObjectives = JSON.parse(currentGoal.GOAL_NAME).objectives;
+				currentObjectives.forEach((objective, index) => {
+					options.push(
+						<option
+							key={`${objective}-${index}`}
+							value={objective}
+							selected={this.state.objectivesSelection.includes(objective)}
+						>
+							{objective}
+						</option>
+					);
+				});
+			}
 			return options;
-
 		} else {
-			return (
-				<option value="Problem">Problem</option>
-			)
+			return <option value="Problem">Problem</option>;
 		}
-
 	}
+
+
+
 
 	rolesOptions() {
 		var options = [];
@@ -479,6 +584,10 @@ class EditScenarioContainer extends Component {
 
 	}
 	deleteevent(event_id) {
+		// Confirmation dialog
+		if (!window.confirm("Are you sure you want to delete this configuration?")) {
+			return;  // If user does not confirm, exit function early
+		}
 
 		if (!this.state.scenario_id) {
 			alert('please close this window and restart.');
@@ -540,6 +649,7 @@ class EditScenarioContainer extends Component {
 			this.setState({ nodes: nodes });
 		}
 	}
+
 	displayEvent() {
 		var nodes = this.state.nodes;
 		if (nodes) {
@@ -549,18 +659,57 @@ class EditScenarioContainer extends Component {
 					ind = index;
 				}
 			});
+
 			if (ind > -1) {
 
 				var that = this;
-
 				return (
-					<div>
+					<div >
 						<br />
 						<b>Event Name:</b>{nodes[ind].eventName}<br />
 						<b>Event Type:</b>{nodes[ind].label}<br />
 						<b>Specific Event:</b>{nodes[ind].specificLabel}<br />
+						{nodes[ind].lookupWordsSynonyms && nodes[ind].lookupWordsSynonyms.length > 0 ? (
+							<ReactTable
+								// data={this.state.lookupWordsTable.map((row, index) => ({ id: index, lookupWord: row }))}
+								data={nodes[ind].lookupWordsSynonyms.map((row, index) => ({ id: index, lookupWord: row }))}
+								columns={[
+									{
+										Header: 'Lookup Words (Synonyms)',
+										accessor: 'lookupWord',
+										width: 400,
+										Cell: props => (
+											<div
+												style={{
+													textAlign: 'left',
+													whiteSpace: 'nowrap',
+													overflow: 'hidden',
+													textOverflow: 'ellipsis',
+													maxWidth: '100%',
+													fontWeight: 'normal',
+												}}
+												title={props.value}
+											>
+												{props.value}
+											</div>
+										),
+									},
+								]}
+								defaultPageSize={5}
+								className="-striped -highlight"
+								style={{
+									width: '100%',
+									paddingLeft: '5px',
+									overflowX: 'auto'
+								}}
+							/>
+						) : (
+							<div><b>No lookup words found.</b></div>
+						)}
+
 						<span className="warning">For Vital signs look below in the table</span><br />
-						<Button onClick={() => that.deleteevent(nodes[ind].id)}>Remove Event</Button>
+
+						<Button className="btn-primary" onClick={() => that.deleteevent(nodes[ind].id)}>Remove Event</Button>
 					</div>
 				)
 			} else {
@@ -648,7 +797,7 @@ class EditScenarioContainer extends Component {
 
 
 	}
-	displayTimelne() {
+	displayTimeline() {
 		var that = this;
 		var circles = [];
 		var width = 0;
@@ -769,7 +918,8 @@ class EditScenarioContainer extends Component {
 				specificLabel: event.SPECIFIC_SKILL,
 				selected: 0,
 				id: event.EVENT_ID,
-				role: event.ROLE_NAME
+				role: event.ROLE_NAME,
+				lookupWordsSynonyms: JSON.parse(event.LOOKUP_WORDS_SYNONYMS)
 			}
 			nodes.push(temp);
 		});
@@ -777,6 +927,84 @@ class EditScenarioContainer extends Component {
 		this.setState({ nodes: nodes });
 
 	}
+	// Look Up Words Method
+
+	//Adding the row to LookUp Words table
+	handleAddRow() {
+		// Add a new row to the lookupWordsTable
+		this.setState(prevState => ({
+			lookupWordsTable: [...prevState.lookupWordsTable, ""]
+
+		}));
+	}
+	// Updating the state of lookupWordsTable based on input.
+	handleInputChange(event, index) {
+		// Handle the input changes in the lookupWordsTable
+		let lookupWordsTable = [...this.state.lookupWordsTable];
+		lookupWordsTable[index] = event.target.value;
+		this.setState({ lookupWordsTable });
+	}
+	// Send API request to get the synonyms of LookUP words
+	saveRows() {
+		// Handle form submission here.
+		const eventName = document.getElementById('createevent').elements.eventname.value;
+		// Check if eventname is empty
+		if (eventName.trim() === '') {
+			alert('Please enter an Event Name.');
+			return;
+		}
+		const lookUpWords = this.state.lookupWordsTable.filter(word => word.trim() !== '');
+		// Check if lookUpWords is empty
+		if (lookUpWords.length === 0) {
+			alert('Please enter at least one Look Up Word.');
+			return;
+		}
+		const lookupDict = {};
+		lookUpWords.forEach(word => {
+			lookupDict[word] = eventName;
+		});
+
+		const jsonObject = {
+			lookup_dict: lookupDict
+		};
+
+		const lookup_dict = JSON.stringify(jsonObject);
+		console.log('LookUp Words', lookup_dict);
+
+		// Send API request to get the synonymn of lookup Words:\
+		axios.post(backendlink.medicalSynonymnLink, lookup_dict, {
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		})
+			.then(response => {
+				console.log('Response from the API', response.data); // Display the response from the API
+				const { lookup_dict } = response.data;
+				let lookupSynonyms = Object.keys(lookup_dict);
+				// Add lookUpWords to lookupSynonyms
+				lookupSynonyms = [...lookupSynonyms, ...lookUpWords];
+				this.setState({ lookupSynonyms });
+				console.log('lookupSynonyms', lookupSynonyms)
+			})
+			.catch(error => {
+				console.error(error);
+			});
+	}
+	//Delete the specific synonymn from the table.
+	handleSynonymnDelete(index) {
+		const lookupSynonyms = [...this.state.lookupSynonyms];
+		lookupSynonyms.splice(index, 1);
+		this.setState({ lookupSynonyms });
+		console.log('synonyms after deleteing', lookupSynonyms)
+	}
+
+	// Handle objective change
+	handleObjectivesChange(e) {
+		let selectedOptions = Array.from(e.target.selectedOptions, option => option.value);
+		this.setState({ objectivesSelection: selectedOptions });
+	}
+
+
 	render() {
 		const divStyle = {
 			width: '400px'
@@ -799,19 +1027,20 @@ class EditScenarioContainer extends Component {
 
 
 						<Col sm={8}>
-							{this.displayTimelne()}
+							{this.displayTimeline()}
+							{this.displayLegend()}
 						</Col>
 						<Col sm={4}>
 							{this.displayEvent()}
+							<br />
 						</Col>
-						<Col sm={8}>
-							{this.displayLegend()}
-						</Col>
-
 					</Row>
 
 					<Row>
+
 						<Button className="btn-primary" onClick={() => this.setState({ open1: !this.state.open1 })}>Add Event</Button>
+						<br />
+						<br />
 						<Panel collapsible expanded={this.state.open1}>
 							<form action="" id="createevent">
 								<Col sm={6}>
@@ -887,20 +1116,21 @@ class EditScenarioContainer extends Component {
 
 										<tr>
 											<td width="160" valign="bottom" ><b>Objectives:</b></td>
-											<td><select multiple style={divStyle} name="objectives">
-												{this.objectivesObjective()}
-
-
-											</select>
+											<td>
+												<select
+													multiple
+													style={divStyle}
+													name="objectives"
+													value={this.state.objectivesSelection}
+													onChange={this.handleObjectivesChange}
+												>
+													{this.objectivesObjective()}
+												</select>
 												<br />
 												<span id="" className="warning"  ></span>
 											</td>
 											<td></td>
-
 										</tr>
-
-
-
 									</table>
 								</Col>
 								<Col sm={6}>
@@ -1029,9 +1259,73 @@ class EditScenarioContainer extends Component {
 											</td>
 											<td><span id="cardiac_rhythm" className="warning"  ></span></td>
 										</tr>
+
 									</table>
 								</Col>
-								<Button className="btn-primary" onClick={this.submitevent.bind(this)}>Create Event</Button>
+
+								<Col sm={6}>
+									<div style={{ border: '1px dashed black', padding: '10px', marginTop: '40px' }}>
+										<Table striped bordered condensed hover>
+											<thead>
+												<tr>
+													<th className="bold-header">Look Up Words:</th>
+												</tr>
+											</thead>
+											<tbody>
+												{this.state.lookupWordsTable.map((item, index) => (
+													<tr key={index}>
+														<td>
+															<textarea //Note use <textarea> for large input
+																type="text"
+																name="lookUpWords"
+																value={item}
+																onChange={event => this.handleInputChange(event, index)}
+																style={{ width: '100%', height: '50px' }}
+
+															/>
+														</td>
+													</tr>
+												))}
+											</tbody>
+										</Table>
+										<button type="button" className="btn btn-info" onClick={this.handleAddRow}>Add Row</button>
+										<div className="text-center">
+											<button type="button" className="btn btn-success" onClick={this.saveRows} >Generate Synonyms</button>
+										</div>
+									</div>
+
+								</Col>
+
+
+								<Col sms={6}>
+									<br />
+									<ReactTable
+										style={{ marginTop: "380px", overflow: 'auto' }}
+										data={this.state.lookupSynonyms.map((synonym, index) => ({ synonym, index }))}
+										columns={[
+											{
+												Header: 'Look Up Words(Synonyms):',
+												accessor: 'synonym', // String-based value accessors!
+												Cell: row => <div style={{ textAlign: 'left', paddingLeft: '8', overflowX: 'auto', whiteSpace: 'nowrap' }}>{row.value}</div>
+											},
+											{
+												Header: 'Actions',
+												accessor: 'actions',
+												width: 100,
+												Cell: rowInfo => (
+													<button className="btn btn-warning  btn-xs" onClick={() => this.handleSynonymnDelete(rowInfo.index)}>
+														Delete
+													</button>
+												)
+											}
+										]}
+										defaultPageSize={5}
+									/>
+
+								</Col>
+								<div className="text-center" style={{ marginTop: "20px" }}>
+									<Button className="btn-primary" onClick={this.submitevent.bind(this)}>Create Event</Button>
+								</div>
 							</form>
 
 						</Panel>
@@ -1041,15 +1335,17 @@ class EditScenarioContainer extends Component {
 							columns={this.state.table.columns}
 							data={this.state.table.rows}
 							defaultFilterMethod={(filter, row) => (String(row[filter.id]) === filter.value)}
+							defaultPageSize={10}
+							getTdProps={() => ({
+								style: {
+									textAlign: 'left',
+
+								},
+							})}
 						/>
+						<br />
 					</Row>
 				</Col>
-
-
-				<Col sm={12}>
-
-				</Col>
-
 
 			</Grid>
 
@@ -1059,4 +1355,5 @@ class EditScenarioContainer extends Component {
 }
 
 
-export default EditScenarioContainer; 
+export default EditScenarioContainer;
+
