@@ -264,8 +264,6 @@ class RunContainer extends Component {
 	    		<h1>Scenarios</h1>
 				<br/>
 	  		</Row>
-    		<Row>
-	    	</Row>
 	    </Col>   
 	    <Col sm={12}>
 	   		<ReactTable

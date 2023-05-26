@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { Row, Grid, Panel } from 'react-bootstrap';
 import { Button, Col, Table } from 'react-bootstrap';
 //import './NameForm.css';
+import Swal from 'sweetalert2';
 import axios from 'axios';
 import backendlink from '../../config/links.js';
 import ReactTable from 'react-table';
@@ -330,7 +331,7 @@ class EditScenarioContainer extends Component {
 		var objectives = this.state.objectivesSelection;
 		// check if objectives array is empty
 		if (objectives.length === 0) {
-			alert("Please select at least one objective");
+			Swal.fire('Objective Missing', 'Please select at least one objective', 'info');
 			return;
 
 		}
@@ -950,13 +951,13 @@ class EditScenarioContainer extends Component {
 		const eventName = document.getElementById('createevent').elements.eventname.value;
 		// Check if eventname is empty
 		if (eventName.trim() === '') {
-			alert('Please enter an Event Name.');
+			Swal.fire('No Event Name ', 'Please enter an Event Name', 'info');
 			return;
 		}
 		const lookUpWords = this.state.lookupWordsTable.filter(word => word.trim() !== '');
 		// Check if lookUpWords is empty
 		if (lookUpWords.length === 0) {
-			alert('Please enter at least one Look Up Word.');
+			Swal.fire('No LookUp Word ', 'Please enter at least one Look Up Word.', 'info');
 			return;
 		}
 		const lookupDict = {};
@@ -972,7 +973,7 @@ class EditScenarioContainer extends Component {
 		console.log('LookUp Words', lookup_dict);
 
 		// Send API request to get the synonymn of lookup Words:\
-		axios.post(backendlink.medicalSynonymnLink, lookup_dict, {
+		axios.post(backendlink.medicalSynonymnAPILink, lookup_dict, {
 			headers: {
 				'Content-Type': 'application/json'
 			}
@@ -988,6 +989,8 @@ class EditScenarioContainer extends Component {
 			})
 			.catch(error => {
 				console.error(error);
+				// Display alert when API is down
+				Swal.fire('API Down ', 'The Medical Synonym API is currently down. Please try turning it on in the Configuration Page and try again.', 'error');
 			});
 	}
 	//Delete the specific synonymn from the table.

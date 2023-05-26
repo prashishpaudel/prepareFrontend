@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Row, Grid, Col, Nav, NavItem, Tab, Button, Table, Glyphicon, ToggleButton, ButtonGroup } from 'react-bootstrap';
 import axios from 'axios';
 import './ConfigContainer.css';
+import Swal from 'sweetalert2';
 import backendlink from '../../config/links.js';
 
 const ConfigContainer = () => {
@@ -9,39 +10,38 @@ const ConfigContainer = () => {
   const [apiData, setApiData] = useState([
     {
       name: 'Lookup Medical Synonymn',
-      checkurl: 'http://192.168.1.95:5004',
+      checkurl: backendlink.checkMedicalSynonymnAPI,
       active: false,
-      openurl: 'http://192.168.1.95:5002/open-medicalSynonyms',
-      closeurl: 'http://192.168.1.95:5002/close-medicalSynonyms'
+      openurl: backendlink.scriptOpenCLoseAPILink + '/open-medicalSynonyms',
+      closeurl: backendlink.scriptOpenCLoseAPILink + '/close-medicalSynonyms'
     },
     {
       name: 'Listen Multicast Audio',
-      // checkurl: 'http://192.168.1.95:5008/',
-      checkurl: 'http://192.168.1.70:5001',
+      checkurl: backendlink.checkMulticastStreamAPI,
       active: false,
-      openurl: 'http://192.168.1.95:5002/open-multicastStream',
-      closeurl: 'http://192.168.1.95:5002/close-multicastStream'
+      openurl: backendlink.scriptOpenCLoseAPILink + '/open-multicastStream',
+      closeurl: backendlink.scriptOpenCLoseAPILink + '/close-multicastStream'
     },
     {
       name: 'Online Training',
-      checkurl: 'http://192.168.1.95:5006',
+      checkurl: backendlink.checkScenarioTrainingAPI,
       active: false,
-      openurl: 'http://192.168.1.95:5002/open-scenarioTraining',
-      closeurl: 'http://192.168.1.95:5002/close-scenarioTraining'
+      openurl: backendlink.scriptOpenCLoseAPILink + '/open-scenarioTraining',
+      closeurl: backendlink.scriptOpenCLoseAPILink + '/close-scenarioTraining'
     },
     {
       name: 'Event Detection',
-      checkurl: 'http://192.168.1.95:5003',
+      checkurl: backendlink.checkEventDetectionAPI,
       active: false,
-      openurl: 'http://192.168.1.95:5002/open-eventDetection',
-      closeurl: 'http://192.168.1.95:5002/close-eventDetection'
+      openurl: backendlink.scriptOpenCLoseAPILink + '/open-eventDetection',
+      closeurl: backendlink.scriptOpenCLoseAPILink + '/close-eventDetection'
     },
     {
       name: 'Whisper Transcribe',
       checkurl: '',
       active: JSON.parse(localStorage.getItem('WhisperTranscribeActive')) || false,
-      openurl: 'http://192.168.1.95:5002/open-whisperTranscribe',
-      closeurl: 'http://192.168.1.95:5002/close-whisperTranscribe'
+      openurl: backendlink.scriptOpenCLoseAPILink + '/open-whisperTranscribe',
+      closeurl: backendlink.scriptOpenCLoseAPILink + '/close-whisperTranscribe'
     },
   ]);
   // Function to check status of API
@@ -119,22 +119,31 @@ const ConfigContainer = () => {
     event.target.reset();
   };
 
-  // Delete a specific configuration
   const handleDelete = (configId) => {
-    if (window.confirm("Are you sure you want to delete this configuration?")) {
-      axios.defaults.headers.common['authenticationtoken'] = localStorage.jwtToken;
-      axios.delete(`${backendlink.backendlink}/deleteAudioStream/${configId}`)
-        .then(response => {
-          // If the backend was successful in deleting the config, remove it from our local state
-          if (response.status === 200) {
-            setConfigData(configData.filter(config => config.Id !== configId));
-          }
-        })
-        .catch(error => {
-          console.log('Error:', error);
-        });
-    }
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "Are you sure you want to delete this configuration?",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'No, cancel!',
+    }).then((result) => {
+      if (result.value) {
+        axios.defaults.headers.common['authenticationtoken'] = localStorage.jwtToken;
+        axios.delete(`${backendlink.backendlink}/deleteAudioStream/${configId}`)
+          .then(response => {
+            // If the backend was successful in deleting the config, remove it from our local state
+            if (response.status === 200) {
+              setConfigData(configData.filter(config => config.Id !== configId));
+            }
+          })
+          .catch(error => {
+            console.log('Error:', error);
+          });
+      }
+    });
   }
+
 
   // Handle toggle change button for API status:
   const onOffApi = async (url) => {
@@ -250,30 +259,39 @@ const ConfigContainer = () => {
                                     const confirmMessage = api.active
                                       ? `Are you sure you want to turn off ${api.name}?`
                                       : `Are you sure you want to turn on ${api.name}?`;
-                                    if (window.confirm(confirmMessage)) {
-                                      const url = api.active ? api.closeurl : api.openurl;
-                                      const responseOk = await onOffApi(url);
-                                      if (responseOk) {
-                                        const newActiveStatus = !api.active;
-                                        setApiData((prevData) => {
-                                          const newData = [...prevData];
-                                          newData[index].active = newActiveStatus;
-                                          // Update local storage if this is the 'Whisper Transcribe' API
-                                          if (api.name === 'Whisper Transcribe') {
-                                            localStorage.setItem('WhisperTranscribeActive', JSON.stringify(newActiveStatus));
-                                          }
-                                          return newData;
-                                        });
-                                      } else {
-                                        console.log(`Failed to toggle API at ${url}`);
-                                        window.alert('The Script Open Close API is currently down. Please try again once it has been resumed..')
+                                    Swal.fire({
+                                      title: 'Are you sure?',
+                                      text: confirmMessage,
+                                      type: 'warning',
+                                      showCancelButton: true,
+                                      confirmButtonText: 'Yes',
+                                      cancelButtonText: 'No',
+                                    }).then(async (result) => {
+                                      if (result.value) {
+                                        const url = api.active ? api.closeurl : api.openurl;
+                                        const responseOk = await onOffApi(url);
+                                        if (responseOk) {
+                                          const newActiveStatus = !api.active;
+                                          setApiData((prevData) => {
+                                            const newData = [...prevData];
+                                            newData[index].active = newActiveStatus;
+                                            // Update local storage if this is the 'Whisper Transcribe' API
+                                            if (api.name === 'Whisper Transcribe') {
+                                              localStorage.setItem('WhisperTranscribeActive', JSON.stringify(newActiveStatus));
+                                            }
+                                            return newData;
+                                          });
+                                        } else {
+                                          console.log(`Failed to toggle API at ${url}`);
+                                          Swal.fire(' API Down ', 'The Script Open Close API is currently down. Please try again once it has been resumed.', 'error');
+                                        }
                                       }
-                                    }
+                                    });
                                   }}
-                                  
                                 >
                                   {api.active ? "On" : "Off"}
                                 </ToggleButton>
+
 
 
                               </ButtonGroup>
