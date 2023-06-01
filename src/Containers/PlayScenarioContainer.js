@@ -236,6 +236,7 @@ class PlayScenarioContainer extends Component {
 					model_name: modelName,
 					scenario_id: scenario_id,
 					scenario_name: scenario_name,
+					processing_status: true,
 					event_info: {},
 					lookup_dict: {}
 				};
@@ -1029,6 +1030,14 @@ class PlayScenarioContainer extends Component {
 					console.log(response.data.error);
 					alert('PLease contact Admin');
 				} else {
+					axios.get(backendlink.stopEventDetectionAPILink)
+					.then(function(response) {
+						console.log(response)
+
+					})
+					.catch(function(error){
+						console.log(error)
+					})
 
 					location.reload();
 					//window.location.href = "./";
