@@ -223,7 +223,7 @@ class PhysioDataResultsNew extends Component {
                 loaded: 1
               });
             }
-
+            console.log('This is response from getStreamDataResults',response.data)
             physioData = response.data.data;
             labels= response.data.labels;
 
@@ -248,6 +248,7 @@ class PhysioDataResultsNew extends Component {
         selectedTimestamp: Math.round(selectedTimestamp / 1000)
       });
     }
+
   }
 
   sectionSelection(ind) {

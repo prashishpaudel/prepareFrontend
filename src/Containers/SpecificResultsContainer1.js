@@ -145,6 +145,7 @@ class SpecificResultsContainer extends Component {
 
 
 				var check = response.data;
+				console.log('This is total reponse data',check)
 
 
 
@@ -188,6 +189,8 @@ class SpecificResultsContainer extends Component {
 
 				serialNumber = response.data.connectedDevices;
 
+			
+
 
 
 				data = JSON.parse(JSON.stringify(data.sort(function (a, b) { return a.TIME - b.TIME })));
@@ -228,6 +231,9 @@ class SpecificResultsContainer extends Component {
 						histSkillsDetails[pointData['skill_type']].push(pointData.points);
 					});
 				}
+				console.log('This is histSkillsDetails',histSkillsDetails)
+				console.log('This is histSpecificSkillsDetails',histSpecificSkillsDetails)
+				console.log('This is histEventsDetails',histEventsDetails)
 
 
 				if (response && response.data && response.data.histSpecificSkillsDetails && response.data.histSpecificSkillsDetails.length > 0) {
@@ -299,7 +305,7 @@ class SpecificResultsContainer extends Component {
 
 
 
-
+				
 				this.setState({
 					table: tables,
 					avgSkillPoints: avgSkillPoints,
@@ -317,7 +323,7 @@ class SpecificResultsContainer extends Component {
 					comments: comm
 				});
 
-
+		
 
 
 			}.bind(this))
@@ -723,7 +729,6 @@ class SpecificResultsContainer extends Component {
 			selectedTimestamp: selectedTimestamp
 
 		});
-
 
 	}
 
@@ -1224,7 +1229,6 @@ class SpecificResultsContainer extends Component {
 		var endTime = 0
 
 		var section = this.state.section;
-
 		if (this.state.occured && this.state.occured.length > 0) {
 			startTime = this.state.occured[0].TIMESTAMP;
 			endTime = this.state.occured[this.state.occured.length - 1].TIMESTAMP
