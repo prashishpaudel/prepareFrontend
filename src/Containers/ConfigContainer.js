@@ -16,11 +16,11 @@ const ConfigContainer = () => {
       closeurl: backendlink.scriptOpenCLoseAPILink + '/close-medicalSynonyms'
     },
     {
-      name: 'Listen Multicast Audio',
-      checkurl: backendlink.checkMulticastStreamAPI,
+      name: 'Multicast Audio Transcription',
+      checkurl: backendlink.checkMulticastTranscriptionStreamAPI,
       active: false,
-      openurl: backendlink.scriptOpenCLoseAPILink + '/open-multicastStream',
-      closeurl: backendlink.scriptOpenCLoseAPILink + '/close-multicastStream'
+      openurl: backendlink.scriptOpenCLoseAPILink + '/open-multicastTranscriptionStream',
+      closeurl: backendlink.scriptOpenCLoseAPILink + '/close-multicastTranscriptionStream'
     },
     {
       name: 'Online Training',
@@ -35,13 +35,6 @@ const ConfigContainer = () => {
       active: false,
       openurl: backendlink.scriptOpenCLoseAPILink + '/open-eventDetection',
       closeurl: backendlink.scriptOpenCLoseAPILink + '/close-eventDetection'
-    },
-    {
-      name: 'Whisper Transcribe',
-      checkurl: '',
-      active: JSON.parse(localStorage.getItem('WhisperTranscribeActive')) || false,
-      openurl: backendlink.scriptOpenCLoseAPILink + '/open-whisperTranscribe',
-      closeurl: backendlink.scriptOpenCLoseAPILink + '/close-whisperTranscribe'
     },
   ]);
   // Function to check status of API
@@ -68,20 +61,6 @@ const ConfigContainer = () => {
       }
     });
   }, []);
-
-  // Set the status of Whisper Transcribe based on local storage
-
-  // Load 'Whisper Transcribe' active status from local storage on component re-render
-  useEffect(() => {
-    const storedStatus = localStorage.getItem('WhisperTranscribeActive');
-    const whisperTranscribeActive = storedStatus ? storedStatus === 'true' : false;
-    setApiData((prevData) => prevData.map((api) =>
-      api.name === 'Whisper Transcribe' ? { ...api, active: whisperTranscribeActive } : api
-    ));
-  }, []);
-
-
-
   useEffect(() => {
     axios.defaults.headers.common['authenticationtoken'] = localStorage.jwtToken;
     axios.get(backendlink.backendlink + '/getAudioStream')
@@ -109,6 +88,10 @@ const ConfigContainer = () => {
         // If the backend was successful in adding the config, add it to our local state
         if (response.status === 200) {
           setConfigData([...configData, { Room, Ip, Port }]);
+          Swal.fire(' Audio Stream added ', 'The new audio stream configuration has been successfully added.', 'success');
+          setTimeout(function() {
+            location.reload();
+        }, 1500);
         }
       })
       .catch(error => {
@@ -135,6 +118,10 @@ const ConfigContainer = () => {
             // If the backend was successful in deleting the config, remove it from our local state
             if (response.status === 200) {
               setConfigData(configData.filter(config => config.Id !== configId));
+              Swal.fire(' Audio Stream deleted ', 'The audio stream configuration has been successfully deleted.', 'info');
+              setTimeout(function() {
+                location.reload();
+            }, 1500);
             }
           })
           .catch(error => {
@@ -275,10 +262,6 @@ const ConfigContainer = () => {
                                           setApiData((prevData) => {
                                             const newData = [...prevData];
                                             newData[index].active = newActiveStatus;
-                                            // Update local storage if this is the 'Whisper Transcribe' API
-                                            if (api.name === 'Whisper Transcribe') {
-                                              localStorage.setItem('WhisperTranscribeActive', JSON.stringify(newActiveStatus));
-                                            }
                                             return newData;
                                           });
                                         } else {

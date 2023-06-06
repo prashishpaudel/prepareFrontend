@@ -27,6 +27,7 @@ class PlayScenarioContainer extends Component {
 			nlpStatus: null,
 			enableNLP: false,
 			nlpComponentShow: true,
+			bulbNlpStatus:false,
 			streamRoomData: [],
 			selectedStream: null,
 			level: -1,
@@ -158,27 +159,20 @@ class PlayScenarioContainer extends Component {
 	}
 	// Function when Enable NLP Button is pressed
 	handleEnableNLP = async () => {
-		// Check if checkMulticastStreamAPI is up and running
-		const multicastAPIURL = backendlink.checkMulticastStreamAPI + '/status-check';
+		// Check if checkMulticastTranscriptionStreamAPI is up and running
+		const multicastAPIURL = backendlink.checkMulticastTranscriptionStreamAPI + '/status-check';
 		try {
 			const response1 = await axios.get(multicastAPIURL);
 			// assuming that the API returns a 200 status when it's up and running
 			if (response1.status !== 200) {
-				throw new Error('The Multicast Stream API is down.')
+				throw new Error('The Multicast Transcription Stream API is down.')
 
 			}
 		} catch (error) {
 			console.error(error);
-			Swal.fire('API Down', 'The Multicast Stream API  is down. Please turn on the Multicast Stream API on the configuration page.', 'error');
+			Swal.fire('API Down', 'The Multicast Transcription Stream API  is down. Please turn on the Multicast Stream API on the configuration page.', 'error');
 			return;
 		}
-		// Check if WhisperTranscribeActive in local storage is true
-		if (JSON.parse(localStorage.getItem('WhisperTranscribeActive')) !== true) {
-			Swal.fire('API Down', 'The Whisper Transcribe API is down. Please turn on the Whisper Transcribe on the configuration page.', 'error');
-			console.log('Whisper Trascribe is not active')
-			return;
-		}
-
 		// Check if checkEventDetectionAPI is up and running
 		const eventDetectionAPIURL = backendlink.checkEventDetectionAPI + '/status-check';
 		try {
@@ -186,6 +180,7 @@ class PlayScenarioContainer extends Component {
 			// assuming that the API returns a 200 status when it's up and running
 			if (response2.status !== 200) {
 				throw new Error('The Event Detection API is down.')
+				
 
 			}
 		} catch (error) {
@@ -225,7 +220,7 @@ class PlayScenarioContainer extends Component {
 				console.log('Event Data', this.state.eventData)
 				console.log('Scenario Data', this.state.scenarioData)
 
-				//POST Body for multicastStreamAPILink
+				//POST Body for multicastTranscriptionStreamAPILink
 				const streamPostData = {
 					multicast_group: selectedIp,
 					port: selectedPort,
@@ -236,8 +231,10 @@ class PlayScenarioContainer extends Component {
 					model_name: modelName,
 					scenario_id: scenario_id,
 					scenario_name: scenario_name,
+					scenario_role_id: this.state.nodes[0].scenario_role_id,
 					processing_status: true,
-					event_info: {},
+					event_id: {},
+					event_time: {},
 					lookup_dict: {}
 				};
 				// Loop through the response data and build key-value pairs
@@ -253,11 +250,13 @@ class PlayScenarioContainer extends Component {
 						Swal.fire('Error', `Event:${event.EVENT_NAME} doesn't have a lookup table. Try again after creating the Lookup table.`, 'error');
 					}
 				});
-				let eventMap = this.state.eventData.map(item => ({ [item.EVENT_NAME]: item.EVENT_ID }));
-				eventPostData.event_info = Object.assign({}, ...eventMap);
+				let eventIdMap = this.state.eventData.map(item => ({ [item.EVENT_NAME]: item.EVENT_ID }));
+				eventPostData.event_id = Object.assign({}, ...eventIdMap);
+				let eventTimeMap = this.state.eventData.map(item => ({ [item.EVENT_NAME]: item.TIME_START }));
+				eventPostData.event_time = Object.assign({}, ...eventTimeMap);
 				console.log('Post Data', eventPostData)
 
-				axios.post(backendlink.multicastStreamAPILink, streamPostData)
+				axios.post(backendlink.multicastTranscriptionStreamAPILink, streamPostData)
 					.then(response => {
 						console.log(response);
 						return axios.post(backendlink.eventDetectionAPILink, eventPostData);
@@ -281,6 +280,7 @@ class PlayScenarioContainer extends Component {
 							}
 						]);
 						this.setState({ nlpComponentShow: false });
+						this.setState({ bulbNlpStatus: true });
 						this.setState({ nlpStatus: true });
 						console.log('Timer:', this.state.playStatus)
 						this.startInterval();
@@ -354,6 +354,8 @@ class PlayScenarioContainer extends Component {
 						// Do not start the interval here as it will be started in submitStreamId
 					} else {
 						this.setState({ nlpStatus: false });
+						this.setState({ nlpComponentShow: false });
+						this.setState({ bulbNlpStatus: false });
 						// If NLP is not enabled, start the interval
 						this.startInterval();
 					}
@@ -1021,6 +1023,8 @@ class PlayScenarioContainer extends Component {
 		console.log('These are the params sent to saveplay', params);
 
 		axios.defaults.headers.common['authenticationtoken'] = localStorage.jwtToken;
+		// Store nlpStatus in a variable
+		const nlpStatus = this.state.nlpStatus;
 		axios.get(backendlink.backendlink + '/saveplay', {
 			params: params
 		})
@@ -1030,17 +1034,26 @@ class PlayScenarioContainer extends Component {
 					console.log(response.data.error);
 					alert('PLease contact Admin');
 				} else {
-					axios.get(backendlink.stopEventDetectionAPILink)
-					.then(function(response) {
-						console.log(response)
-
-					})
-					.catch(function(error){
-						console.log(error)
-					})
-
-					location.reload();
-					//window.location.href = "./";
+					console.log('response data', response.data)
+					const playId = response.data.play_id;
+					console.log('play ID:   ', playId)
+					const stopParams = {
+						play_id: playId,
+					}
+					// Check if this.state.nlpStatus is true
+					if (nlpStatus) {
+						axios.post(backendlink.stopEventDetectionAPILink, stopParams)
+							.then(function (response) {
+								console.log(response)
+								// Restarting the page post request completes
+								location.reload();
+							})
+							.catch(function (error) {
+								console.log(error)
+							})
+					} else {
+						location.reload();
+					}
 
 				}
 			})
@@ -1330,7 +1343,7 @@ class PlayScenarioContainer extends Component {
 				height: '25px',
 				width: '25px',
 				borderRadius: '50%',
-				backgroundColor: this.state.nlpComponentShow ? '#FF3131' : '#50C878',
+				backgroundColor: this.state.bulbNlpStatus ? '#50C878' : '#FF3131',
 			};
 			return <div style={style} />;
 		};

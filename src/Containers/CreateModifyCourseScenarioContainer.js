@@ -16,6 +16,7 @@ class CreateModifyCourseScenarioContainer extends Component {
 		super(props);
 		this.state = {
 			scenarioInGeneration: 0,
+			lastTrainDates: {},
 			scenarioRoles: [],
 			course_id: this.props.course_id,
 			loading: 0,
@@ -192,6 +193,7 @@ class CreateModifyCourseScenarioContainer extends Component {
 		})
 			.then(function (response) {
 				var check = response.data;
+				console.log('okay this is data I am looking for', check)
 				if (check && check.error) {
 					window.location.href = "./login";
 
@@ -199,6 +201,8 @@ class CreateModifyCourseScenarioContainer extends Component {
 
 				var tables = {};
 				var data = response.data;
+				// Define lastTrainDatesTemp here so it's available in the scope of this function.
+				let lastTrainDatesTemp = {};
 				data.forEach(function (row) {
 					// if(row['scenario_id']){
 					// 	var editScenario='/editScenario?scenario_id='+row['scenario_id'];
@@ -213,7 +217,13 @@ class CreateModifyCourseScenarioContainer extends Component {
 							}
 						}
 					});
+					// Store the last train date for each scenario.
+					if (row['scenario_id']) {
+						lastTrainDatesTemp[row['scenario_id']] = row['LAST_TRAIN_DATE'];
+					}
 				});
+				// Update the state with the last train dates.
+				this.setState({ lastTrainDates: lastTrainDatesTemp });
 
 				tables.rows = data;
 				if (data.length > 0) {
@@ -435,7 +445,7 @@ class CreateModifyCourseScenarioContainer extends Component {
 						Swal.fire({
 							title: 'Enter your password',
 							input: 'password',
-							type:'info',
+							type: 'info',
 							inputPlaceholder: 'Enter your password',
 							inputAttributes: {
 								maxlength: 20,
@@ -477,17 +487,35 @@ class CreateModifyCourseScenarioContainer extends Component {
 												}
 											});
 											if (allEventsHaveLookupWords) {
-												// Make POST request
-												console.log(postData)
-												return axios.post(backendlink.scenarioTrainingAPILink, postData)
-													.then((response) => {
-														console.log('Training has started');
-														Swal.fire('Training resumed', "Training is underway. Check the 'Last Train Date' column in 30 minutes. Avoid retraining until then.", 'success');
+												let lastTrainDate = this.state.lastTrainDates[scenario_id];
+												let message = lastTrainDate
+													? `This model was trained on ${new Date(lastTrainDate).toLocaleString()}. Do you want to retrain it again?`
+													: `This model has never been trained before. Do you want to train it now?`;
+												let title = lastTrainDate ? 'Do you want to retrain?' : 'Do you want to train?';
 
-													})
-													.catch((error) => {
-														console.error('Error in training', error);
-													});
+												Swal.fire({
+													title: title,
+													text: message,
+													type: 'question',
+													showCancelButton: true,
+													confirmButtonText: 'Yes',
+													cancelButtonText: 'No'
+												}).then((result) => {
+													if (result.value) {
+														// Make POST request
+														console.log(postData)
+														return axios.post(backendlink.scenarioTrainingAPILink, postData)
+															.then((response) => {
+																console.log('Training has started');
+																Swal.fire('Training resumed', "Training is underway. Check the 'Last Train Date' column in 30 minutes. Avoid retraining until then.", 'success');
+
+															})
+															.catch((error) => {
+																console.error('Error in training', error);
+															});
+													}
+												});
+
 											}
 										})
 										.catch((error) => {
