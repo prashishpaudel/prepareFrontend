@@ -42,6 +42,7 @@ class SpecificResultsContainer extends Component {
 			histEventsDetails: {},
 			actual: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 11, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 11, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 11, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 11, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 11, 1],
 			occured: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 11, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 11, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 11, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 11, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 11, 1],
+			nlpOccured: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 11, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 11, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 11, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 11, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 11, 1],
 			traineeHist: [],
 			avgSkillPoints: {
 				behavioral: -1,
@@ -112,6 +113,10 @@ class SpecificResultsContainer extends Component {
 					{
 						Header: 'POINTS',
 						accessor: 'POINTS'
+					},
+					{
+						Header: 'PREDICTED_TEXT',
+						accessor: 'PREDICTED_TEXT'
 					}
 
 				],
@@ -156,6 +161,7 @@ class SpecificResultsContainer extends Component {
 				var tables = this.state.table;
 				var data = response.data.playOutput;
 				var timestampsEvents = [];
+				var nlpTimeStampsEvents = [];
 				var eventNames = [];
 				var comm = response.data.comments;
 
@@ -173,11 +179,18 @@ class SpecificResultsContainer extends Component {
 					if (!da.TIMESTAMP) {
 						da.TIMESTAMP = 0;
 					}
+					if (!da.NLP_TIMESTAMP) {
+						da.NLP_TIMESTAMP = 0;
+					}
 
 					da.TIME = parseInt(da.TIME, 10);
 					da.TIMESTAMP = parseInt(da.TIMESTAMP, 10);
+					da.NLP_TIMESTAMP = parseInt(da.NLP_TIMESTAMP, 10);
 					timestampsEvents.push(Math.round(da.TIMESTAMP / 1000));
+					nlpTimeStampsEvents.push(Math.round(da.NLP_TIMESTAMP / 1000));
 					eventNames.push(da.EVENT_NAME);
+
+					
 
 				});
 
@@ -201,7 +214,10 @@ class SpecificResultsContainer extends Component {
 
 
 				var occured = JSON.parse(JSON.stringify(data.sort(function (a, b) { return a.TIMESTAMP - b.TIMESTAMP })));
+				var nlpOccured = JSON.parse(JSON.stringify(data.sort(function (a, b) { return a.NLP_TIMESTAMP - b.NLP_TIMESTAMP })));
 				var actual = JSON.parse(JSON.stringify(data.sort(function (a, b) { return a.TIME - b.TIME })));
+				console.log('Occured',occured)
+				console.log('Actual',actual)
 
 
 
@@ -312,12 +328,14 @@ class SpecificResultsContainer extends Component {
 					traineeHist: traineeHist,
 					actual: actual,
 					occured: occured,
+					nlpOccured:nlpOccured,
 					histSkillsDetails: histSkillsDetails,
 					histSpecificSkillsDetails: histSpecificSkillsDetails,
 					histEventsDetails: histEventsDetails,
 					deviceConnection: deviceConnection,
 					serialNumber: serialNumber,
 					timestampsEvents: timestampsEvents,
+					nlpTimeStampsEvents: nlpTimeStampsEvents,
 					eventNames: eventNames,
 					playvids: playvids,
 					comments: comm
@@ -710,6 +728,7 @@ class SpecificResultsContainer extends Component {
 		var highlight = id;
 		var actual = this.state.actual;
 		var selectedTimestamp = 0;
+		var selectedNlpTimestamp = 0;
 
 
 
@@ -720,13 +739,21 @@ class SpecificResultsContainer extends Component {
 
 			}
 		});
+		actual.forEach(function (eachActual) {
+			if (eachActual.ID === id) {
+
+				selectedNlpTimestamp = eachActual.NLP_TIMESTAMP;
+
+			}
+		});
 
 
 
 
 		this.setState({
 			highlight: highlight,
-			selectedTimestamp: selectedTimestamp
+			selectedTimestamp: selectedTimestamp,
+			selectedNlpTimestamp:selectedNlpTimestamp
 
 		});
 
@@ -847,6 +874,9 @@ class SpecificResultsContainer extends Component {
 										<h6>
 											<span className='heading'>Specific Skill: </span><br />{data.SPECIFIC_SKILL}
 										</h6>
+										<h6>
+											<span className='heading'>Predicted Text: </span><br />{data.PREDICTED_TEXT}
+										</h6>
 
 
 									</Col>
@@ -931,6 +961,9 @@ class SpecificResultsContainer extends Component {
 
 									<h6>
 										<span className='heading'>Skill: </span><br />{data.SKILL_TYPE} <br />
+									</h6>
+									<h6>
+										<span className='heading'>Specific Skill: </span><br />{data.SPECIFIC_SKILL}
 									</h6>
 									<h6>
 										<span className='heading'>Specific Skill: </span><br />{data.SPECIFIC_SKILL}
@@ -1234,13 +1267,6 @@ class SpecificResultsContainer extends Component {
 			endTime = this.state.occured[this.state.occured.length - 1].TIMESTAMP
 		}
 
-
-
-
-
-
-
-
 		const AverageSkills = (props)=>({
 			render() {
 				return (
@@ -1352,11 +1378,11 @@ class SpecificResultsContainer extends Component {
 
 			var serialNumber = this.state.serialNumber;
 			for (var i = 0; i < serialNumber.length; i++) {
-
 				mainSection.push(
 					<Row>
 						{this.displaySequence()}
-						<PhysioDataResults section={section} startTime={startTime} endTime={endTime} deviceConnection={this.state.deviceConnection} serialNumber={serialNumber[i].SERIALNUMBER} timestamps={this.state.timestampsEvents} eventNames={this.state.eventNames} selectedTimestamp={this.state.selectedTimestamp} />
+						<br/>
+						<PhysioDataResults section={section} startTime={startTime} endTime={endTime} deviceConnection={this.state.deviceConnection} serialNumber={serialNumber[i].SERIALNUMBER} timestamps={this.state.timestampsEvents} nlpTimeStamps={this.state.nlpTimeStampsEvents} eventNames={this.state.eventNames} selectedTimestamp={this.state.selectedTimestamp} selectedNlpTimestamp={this.state.selectedNlpTimestamp} />
 
 					</Row>
 				)

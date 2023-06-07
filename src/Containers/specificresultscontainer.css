@@ -4,14 +4,15 @@
  * All of the styles in this file are optional and configurable!
  */
 
-.trendAnalysiscss{
+.trendAnalysiscss {
   padding: 20px;
 }
 
-.Youtube{
+.Youtube {
   background-color: lightgrey;
   padding: 20px;
 }
+
 .CircularProgressbar {
   /*
    * This fixes an issue where the CircularProgressbar svg has
@@ -22,13 +23,13 @@
   width: 60%;
 }
 
-.vidList{
+.vidList {
   border-left: 6px solid red;
   background-color: lightgrey;
   border-bottom: 1px double blue;
 }
 
-.vidSelected{
+.vidSelected {
 
   border-left: 6px solid green;
   background-color: lightgrey;
@@ -36,33 +37,33 @@
 
 }
 
-.inside > .CircularProgressbar{
+.inside>.CircularProgressbar {
   width: 100%;
 }
 
-.main{
+.main {
   background-color: lightgray;
 }
-.heading{
-  color:#3e98c7;
+
+.heading {
+  color: #3e98c7;
 }
 
-.event-heading
-{
-  color:#3e98c7;
+.event-heading {
+  color: #3e98c7;
   font-size: 18px;
 }
 
-.event-number
-{
-  float:right;
-  padding-right:16px;
-  font-weight:bold;
+.event-number {
+  float: right;
+  padding-right: 16px;
+  font-weight: bold;
 }
 
 .rt-thead {
-  color:#3e98c7;
+  color: #3e98c7;
 }
+
 .CircularProgressbar .CircularProgressbar-path {
   stroke: #3e98c7;
   stroke-linecap: round;
@@ -76,117 +77,115 @@
 .CircularProgressbar .CircularProgressbar-text {
   fill: #3e98c7;
   font-size: 20px;
-  dominant-baseline: middle;
+  /* dominant-baseline: middle; */
   text-anchor: middle;
 }
 
-.whi{
+.whi {
   background-color: white;
-   padding: 5px;
-   border: 5px solid #f2f6fc;
-   
+  padding: 5px;
+  border: 5px solid #f2f6fc;
+
 }
 
 
-.whi2{
+.whi2 {
   background-color: #ffffff;
-  border-bottom:  5px solid #aacaff ; 
+  border-bottom: 5px solid #aacaff;
 }
 
 
 
-.score{
+.score {
   background-color: white;
   padding: 5px;
   line-height: 110%;
-   border: 5px solid #f2f6fc;
-   height: 200px;
+  border: 5px solid #f2f6fc;
+  min-height: 200px;
 }
-.selected{
-  
-  background-color: ##eee;
+
+.selected {
+
+  background-color: #eee;
   padding: 5px;
   line-height: 110%;
-   border: 5px solid #ccc;
-   height: 200px;
+  border: 5px solid #ccc;
+  min-height: 200px;
 }
-.main{
+
+.main {
   padding: 0px;
-  margin:0;
-  
-}
-.sideMenuCellCssSelected{
-   background-color: #337ab7;
-   color: white;
+  margin: 0;
+
 }
 
-.sideMenuCellCss{
-   background-color: lightgray;
-   color: #337ab7;
+.sideMenuCellCssSelected {
+  background-color: #337ab7;
+  color: white;
 }
 
-.MainContent{
-background-color: white;
-min-height: 300px;
-padding: 20px;
+.sideMenuCellCss {
+  background-color: lightgray;
+  color: #337ab7;
+}
+
+.MainContent {
+  background-color: white;
+  min-height: 300px;
+  padding: 20px;
 }
 
 
 
 
-.sidemenu{
-  padding:0px;
+.sidemenu {
+  padding: 0px;
   margin: 0px;
-  
+
 }
 
 .btn-circle.btn-xl {
-    width: 70px;
-    height: 70px;
-    padding: 10px 16px;
-    border-radius: 35px;
-    font-size: 24px;
-    line-height: 1.33;
+  width: 70px;
+  height: 70px;
+  padding: 10px 16px;
+  border-radius: 35px;
+  font-size: 24px;
+  line-height: 1.33;
 }
 
 .btn-circle {
-    width: 50px;
-    height: 50px;
-    padding: 6px 0px;
-    border-radius: 25px;
-    text-align: center;
-    font-size: 12px;
-    line-height: 1.42857;
+  width: 50px;
+  height: 50px;
+  padding: 6px 0px;
+  border-radius: 25px;
+  text-align: center;
+  font-size: 12px;
+  line-height: 1.42857;
 }
 
-.btn-correct
-{
-  background-color:#3e98c7;
+.btn-correct {
+  background-color: #3e98c7;
   color: white;
 
 }
 
-.btn-incorrect
-{
-  color:#3e98c7;
- 
+.btn-incorrect {
+  color: #3e98c7;
+
 }
 
-.btn-correct:hover, .btn-incorrect:hover
-{
-  color:white;
+.btn-correct:hover,
+.btn-incorrect:hover {
+  color: white;
   background-color: #70879a;
 }
 
 
 
-.btn-correct:focus, .btn-incorrect:focus
-{
-  outline:none !important;
-  color:white;
-  background-color:#70879a;
-  
+.btn-correct:focus,
+.btn-incorrect:focus {
+  outline: none !important;
+  color: white;
+  background-color: #70879a;
+
 }
-
-
-
