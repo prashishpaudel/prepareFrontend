@@ -728,7 +728,8 @@ class SpecificResultsContainer extends Component {
 		var highlight = id;
 		var actual = this.state.actual;
 		var selectedTimestamp = 0;
-		var selectedNlpTimestamp = 0;
+		// var selectedNlpTimestamp = 0; // For single value
+		var selectedNlpTimestamp = []; // For array of multiple NLP timestamps value
 
 
 
@@ -741,9 +742,8 @@ class SpecificResultsContainer extends Component {
 		});
 		actual.forEach(function (eachActual) {
 			if (eachActual.ID === id) {
-
-				selectedNlpTimestamp = eachActual.NLP_TIMESTAMP;
-
+				// selectedNlpTimestamp = eachActual.NLP_TIMESTAMP; // For single value
+				selectedNlpTimestamp.push(eachActual.NLP_TIMESTAMP); // For array of multiple NLP timestamps value
 			}
 		});
 
