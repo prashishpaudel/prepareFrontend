@@ -341,6 +341,8 @@ class EditScenarioContainer extends Component {
 		role = role.trim();
 		var flag = 0;
 		var heart_rate = document.getElementById("createevent").elements["heart_rate"].value;
+		var event_timeout = document.getElementById("createevent").elements["event_timeout"].value;
+		var event_penalty_coefficient = document.getElementById("createevent").elements["event_penalty_coefficient"].value;
 		var systolic_bp = document.getElementById("createevent").elements["systolic_bp"].value;
 		var diastolic_bp = document.getElementById("createevent").elements["diastolic_bp"].value;
 		var spo2 = document.getElementById("createevent").elements["spo2"].value;
@@ -387,6 +389,17 @@ class EditScenarioContainer extends Component {
 			// flag=1;
 		} else {
 			document.getElementById("spo2").innerHTML = "";
+		}
+
+		if (isNaN(event_penalty_coefficient) || event_penalty_coefficient.length === 0) {
+			event_penalty_coefficient = -1;
+		} else {
+			document.getElementById("event_penalty_coefficient").innerHTML = "";
+		}
+		if (isNaN(event_timeout) || event_timeout.length === 0) {
+			event_timeout = -1;
+		} else {
+			document.getElementById("event_timeout").innerHTML = "";
 		}
 
 
@@ -446,6 +459,8 @@ class EditScenarioContainer extends Component {
 				r_rate: r_rate,
 				cardiac_rhythm: cardiac_rhythm,
 				scenario_role_id: role,
+				event_timeout : event_timeout,
+				event_penalty_coefficient : event_penalty_coefficient,
 				objectives1: objectives.toString(),
 				lookupSynonyms: this.state.lookupSynonyms.length > 0 ? JSON.stringify(this.state.lookupSynonyms) : null
 			}
@@ -945,6 +960,15 @@ class EditScenarioContainer extends Component {
 		lookupWordsTable[index] = event.target.value;
 		this.setState({ lookupWordsTable });
 	}
+
+	//Delete the specific synonymn from the table.
+	handleSynonymnDelete(index) {
+		const lookupSynonyms = [...this.state.lookupSynonyms];
+		lookupSynonyms.splice(index, 1);
+		this.setState({ lookupSynonyms });
+		console.log('synonyms after deleteing', lookupSynonyms)
+	}
+	
 	// Send API request to get the synonyms of LookUP words
 	saveRows() {
 		// Handle form submission here.
@@ -993,13 +1017,7 @@ class EditScenarioContainer extends Component {
 				Swal.fire('API Down ', 'The Medical Synonym API is currently down. Please try turning it on in the Configuration Page and try again.', 'error');
 			});
 	}
-	//Delete the specific synonymn from the table.
-	handleSynonymnDelete(index) {
-		const lookupSynonyms = [...this.state.lookupSynonyms];
-		lookupSynonyms.splice(index, 1);
-		this.setState({ lookupSynonyms });
-		console.log('synonyms after deleteing', lookupSynonyms)
-	}
+
 
 	// Handle objective change
 	handleObjectivesChange(e) {
@@ -1134,6 +1152,15 @@ class EditScenarioContainer extends Component {
 											</td>
 											<td></td>
 										</tr>
+
+										<tr>
+											<td width="160" valign="bottom" ><b>Event Time Out (sec)</b></td>
+											<td><input type="number" name="event_timeout" size="35" />
+												<br /><span id="event_timeout" className="warning"  ></span>
+											</td>
+											<td></td>
+										</tr>
+										
 									</table>
 								</Col>
 								<Col sm={6}>
@@ -1263,6 +1290,14 @@ class EditScenarioContainer extends Component {
 											<td><span id="cardiac_rhythm" className="warning"  ></span></td>
 										</tr>
 
+										<tr>
+											<td width="160" valign="bottom" ><b>Penalty Coefficient</b></td>
+											<td><input type="number" name="event_penalty_coefficient" size="35" />
+												<br /><span id="event_penalty_coefficient" className="warning"  ></span>
+											</td>
+											<td></td>
+										</tr>
+
 									</table>
 								</Col>
 
@@ -1303,13 +1338,16 @@ class EditScenarioContainer extends Component {
 								<Col sms={6}>
 									<br />
 									<ReactTable
-										style={{ marginTop: "380px", overflow: 'auto' }}
-										data={this.state.lookupSynonyms.map((synonym, index) => ({ synonym, index }))}
+										style={{ marginTop: "420px", overflow: 'auto'}}
+										// data={this.state.lookupSynonyms.map((synonym, index) => ({ synonym, index }))}
+										data={this.state.lookupSynonyms.map((synonym, index) => ({ key: index, synonym, index }))}
+
 										columns={[
 											{
 												Header: 'Look Up Words(Synonyms):',
 												accessor: 'synonym', // String-based value accessors!
 												Cell: row => <div style={{ textAlign: 'left', paddingLeft: '8', overflowX: 'auto', whiteSpace: 'nowrap' }}>{row.value}</div>
+
 											},
 											{
 												Header: 'Actions',

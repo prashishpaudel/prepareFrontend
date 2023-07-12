@@ -58,65 +58,101 @@ class SpecificResultsContainer extends Component {
 				},
 				columns: [
 					{
-						Header: 'SCENARIO_NAME',
-						accessor: 'SCENARIO_NAME'
+						Header: () => <div title="SCENARIO_NAME">SCENARIO_NAME</div>,
+						accessor: 'SCENARIO_NAME',
+						Cell: ({ value }) => <div title={value}>{value}</div>,
+						width:200
 					},
 					{
-						Header: 'Observer Name',
-						accessor: 'Observer Name'
+						Header: () => <div title="Observer Name">Observer Name</div>,
+						accessor: 'Observer Name',
+						Cell: ({ value }) => <div title={value}>{value}</div>,
+						width:200
 					},
 					{
-						Header: 'TRAINEE Name',
-						accessor: 'TRAINEE Name'
+						Header: () => <div title="TRAINEE">TRAINEE</div>,
+						accessor: 'TRAINEE Name',
+						Cell: ({ value }) => <div title={value}>{value}</div>,
+						width:200
 					},
 
 					{
-						Header: 'EVENT_NAME',
-						accessor: 'EVENT_NAME'
+						Header: () => <div title="EVENT_NAME">EVENT_NAME</div>,
+						accessor: 'EVENT_NAME',
+						Cell: ({ value }) => <div title={value}>{value}</div>,
+						width:200
 					},
 					{
-						Header: 'SKILL_TYPE',
-						accessor: 'SKILL_TYPE'
+						Header: () => <div title="SKILL_TYPE">SKILL_TYPE</div>,
+						accessor: 'SKILL_TYPE',
+						Cell: ({ value }) => <div title={value}>{value}</div>,
+						width:200
 					},
 					{
-						Header: 'SPECIFIC_SKILL',
-						accessor: 'SPECIFIC_SKILL'
+						Header: () => <div title="SPECIFIC_SKILL">SPECIFIC_SKILL</div>,
+						accessor: 'SPECIFIC_SKILL',
+						Cell: ({ value }) => <div title={value}>{value}</div>,
+						width:200
 					},
 					{
-						Header: 'HEART_RATE',
-						accessor: 'HEART_RATE'
+						Header: () => <div title="HEART_RATE">HEART_RATE</div>,
+						accessor: 'HEART_RATE',
+						Cell: ({ value }) => <div title={value}>{value}</div>,
+						width:180
 					},
 					{
-						Header: 'SYSTOLIC_BP',
-						accessor: 'SYSTOLIC_BP'
+						Header: () => <div title="DISTOLIC_BP">DISTOLIC_BP</div>,
+						accessor: 'DISTOLIC_BP',
+						Cell: ({ value }) => <div title={value}>{value}</div>,
+						width:180
 					},
 					{
-						Header: 'DISTOLIC_BP',
-						accessor: 'DISTOLIC_BP'
+						Header: () => <div title="SYSTOLIC_BP">SYSTOLIC_BP</div>,
+						accessor: 'SYSTOLIC_BP',
+						Cell: ({ value }) => <div title={value}>{value}</div>,
+						width:180
 					},
 					{
-						Header: 'SYSTOLIC_BP',
-						accessor: 'SYSTOLIC_BP'
+						Header: () => <div title="SPO2">SPO2</div>,
+						accessor: 'SPO2',
+						Cell: ({ value }) => <div title={value}>{value}</div>,
+						width:180
 					},
 					{
-						Header: 'SPO2',
-						accessor: 'SPO2'
+						Header: () => <div title="R_RATE">R_RATE</div>,
+						accessor: 'R_RATE',
+						Cell: ({ value }) => <div title={value}>{value}</div>,
+						width:180
 					},
 					{
-						Header: 'R_RATE',
-						accessor: 'R_RATE'
+						Header: () => <div title="CARDIAC_RYTHM">CARDIAC_RYTHM</div>,
+						accessor: 'CARDIAC_RYTHM',
+						Cell: ({ value }) => <div title={value}>{value}</div>,
+						width:180
 					},
 					{
-						Header: 'CARDIAC_RYTHM',
-						accessor: 'CARDIAC_RYTHM'
+						Header: () => <div title="POINTS">POINTS</div>,
+						accessor: 'POINTS',
+						Cell: ({ value }) => <div title={value}>{value}</div>,
+						width:150
 					},
 					{
-						Header: 'POINTS',
-						accessor: 'POINTS'
+						Header: () => <div title="PREDICTED_TEXT">PREDICTED_TEXT</div>,
+						accessor: 'PREDICTED_TEXT',
+						Cell: ({ value }) => <div title={value}>{value}</div>,
+						width:200
 					},
 					{
-						Header: 'PREDICTED_TEXT',
-						accessor: 'PREDICTED_TEXT'
+						Header: () => <div title="AUTOMATED_INSTRUCTOR_SCORE">AUTOMATED_INSTRUCTOR_SCORE</div>,
+						accessor: 'AUTOMATED_INSTRCUTOR_SCORE',
+						Cell: ({ value }) => <div title={value}>{value}</div>,
+						width:280
+
+					},
+					{
+						Header: () => <div title="AUTOMATED_NLP_SCORE">AUTOMATED_NLP_SCORE</div>,
+						accessor: 'AUTOMATED_NLP_SCORE',
+						width:220
 					}
 
 				],
@@ -150,7 +186,7 @@ class SpecificResultsContainer extends Component {
 
 
 				var check = response.data;
-				console.log('This is total reponse data',check)
+				console.log('This is total reponse data', check)
 
 
 
@@ -190,7 +226,7 @@ class SpecificResultsContainer extends Component {
 					nlpTimeStampsEvents.push(Math.round(da.NLP_TIMESTAMP / 1000));
 					eventNames.push(da.EVENT_NAME);
 
-					
+
 
 				});
 
@@ -202,7 +238,7 @@ class SpecificResultsContainer extends Component {
 
 				serialNumber = response.data.connectedDevices;
 
-			
+
 
 
 
@@ -216,8 +252,8 @@ class SpecificResultsContainer extends Component {
 				var occured = JSON.parse(JSON.stringify(data.sort(function (a, b) { return a.TIMESTAMP - b.TIMESTAMP })));
 				var nlpOccured = JSON.parse(JSON.stringify(data.sort(function (a, b) { return a.NLP_TIMESTAMP - b.NLP_TIMESTAMP })));
 				var actual = JSON.parse(JSON.stringify(data.sort(function (a, b) { return a.TIME - b.TIME })));
-				console.log('Occured',occured)
-				console.log('Actual',actual)
+				console.log('Occured', occured)
+				console.log('Actual', actual)
 
 
 
@@ -247,9 +283,9 @@ class SpecificResultsContainer extends Component {
 						histSkillsDetails[pointData['skill_type']].push(pointData.points);
 					});
 				}
-				console.log('This is histSkillsDetails',histSkillsDetails)
-				console.log('This is histSpecificSkillsDetails',histSpecificSkillsDetails)
-				console.log('This is histEventsDetails',histEventsDetails)
+				console.log('This is histSkillsDetails', histSkillsDetails)
+				console.log('This is histSpecificSkillsDetails', histSpecificSkillsDetails)
+				console.log('This is histEventsDetails', histEventsDetails)
 
 
 				if (response && response.data && response.data.histSpecificSkillsDetails && response.data.histSpecificSkillsDetails.length > 0) {
@@ -321,14 +357,14 @@ class SpecificResultsContainer extends Component {
 
 
 
-				
+
 				this.setState({
 					table: tables,
 					avgSkillPoints: avgSkillPoints,
 					traineeHist: traineeHist,
 					actual: actual,
 					occured: occured,
-					nlpOccured:nlpOccured,
+					nlpOccured: nlpOccured,
 					histSkillsDetails: histSkillsDetails,
 					histSpecificSkillsDetails: histSpecificSkillsDetails,
 					histEventsDetails: histEventsDetails,
@@ -341,7 +377,7 @@ class SpecificResultsContainer extends Component {
 					comments: comm
 				});
 
-		
+
 
 
 			}.bind(this))
@@ -753,7 +789,7 @@ class SpecificResultsContainer extends Component {
 		this.setState({
 			highlight: highlight,
 			selectedTimestamp: selectedTimestamp,
-			selectedNlpTimestamp:selectedNlpTimestamp
+			selectedNlpTimestamp: selectedNlpTimestamp
 
 		});
 
@@ -846,7 +882,7 @@ class SpecificResultsContainer extends Component {
 
 
 
-	displaySequence() {
+	displaySequence(field) {
 		var individualResult = [];
 		var datas = this.state.table.rows;
 		var highlight = -1;
@@ -885,7 +921,7 @@ class SpecificResultsContainer extends Component {
 										<br />
 										<br />
 										<div className='inside'>
-											<CircularProgressbar percentage={data.POINTS} />
+											<CircularProgressbar percentage={data[field]} />
 										</div>
 									</Col>
 								</Row>
@@ -934,7 +970,7 @@ class SpecificResultsContainer extends Component {
 
 	}
 
-	displayIndividual() {
+	displayIndividual(field) {
 		var individualResult = [];
 		var datas = this.state.table.rows;
 		var highlight = -1;
@@ -976,7 +1012,7 @@ class SpecificResultsContainer extends Component {
 									<br />
 									<br />
 									<div className='inside'>
-										<CircularProgressbar percentage={data.POINTS} />
+										<CircularProgressbar percentage={data[field]} />
 									</div>
 								</Col>
 							</Row>
@@ -1001,6 +1037,7 @@ class SpecificResultsContainer extends Component {
 
 	}
 
+
 	fileChangedHandler = (event) => {
 	}
 
@@ -1017,7 +1054,7 @@ class SpecificResultsContainer extends Component {
 
 		formData.append('myFile', this.state.selectedFile, this.state.play_id)
 
-		axios.post('http://localhost:1338/fileUpload', formData, {
+		axios.post('http://localhost:1339/fileUpload', formData, {
 			onUploadProgress: progressEvent => {
 				console.log(progressEvent.loaded / progressEvent.total)
 			}
@@ -1059,7 +1096,7 @@ class SpecificResultsContainer extends Component {
 		if (datas.length > 0) {
 			var totalScore = 0;
 			datas.forEach(function (data) {
-				totalScore += parseInt(data.POINTS,10);
+				totalScore += parseInt(data.POINTS, 10);
 
 			});
 
@@ -1267,7 +1304,7 @@ class SpecificResultsContainer extends Component {
 			endTime = this.state.occured[this.state.occured.length - 1].TIMESTAMP
 		}
 
-		const AverageSkills = (props)=>({
+		const AverageSkills = (props) => ({
 			render() {
 				return (
 					<CircularProgressbar percentage={this.props.data} />
@@ -1325,8 +1362,8 @@ class SpecificResultsContainer extends Component {
 		if (section === 1) {
 			mainSection.push(
 				<Row>
-					{this.displaySequence()}
-					{this.displayIndividual()}
+					{this.displaySequence('POINTS')}=,
+					{this.displayIndividual('POINTS')}
 				</Row>
 
 			)
@@ -1343,6 +1380,56 @@ class SpecificResultsContainer extends Component {
 			sideSection.push(
 
 				<ListGroupItem className="sideMenuCellCss" onClick={() => { this.sectionSelection(1) }}><span className="sideMenuCellCss">Instructor Summary</span></ListGroupItem>
+
+			)
+		}
+
+		if (section === 6) {
+			mainSection.push(
+				<Row>
+					{this.displaySequence('AUTOMATED_INSTRCUTOR_SCORE')}=,
+					{this.displayIndividual('AUTOMATED_INSTRCUTOR_SCORE')}
+				</Row>
+
+			)
+
+			sideSection.push(
+
+				<ListGroupItem className="sideMenuCellCssSelected" onClick={() => { this.sectionSelection(6) }}><span className="sideMenuCellCssSelected">Automated Instructor Score</span></ListGroupItem>
+
+			)
+
+
+
+		} else {
+			sideSection.push(
+
+				<ListGroupItem className="sideMenuCellCss" onClick={() => { this.sectionSelection(6) }}><span className="sideMenuCellCss">Automated Instructor Score</span></ListGroupItem>
+
+			)
+		}
+
+		if (section === 7) {
+			mainSection.push(
+				<Row>
+					{this.displaySequence('AUTOMATED_NLP_SCORE')}=,
+					{this.displayIndividual('AUTOMATED_NLP_SCORE')}
+				</Row>
+
+			)
+
+			sideSection.push(
+
+				<ListGroupItem className="sideMenuCellCssSelected" onClick={() => { this.sectionSelection(7) }}><span className="sideMenuCellCssSelected">Automated NLP Score</span></ListGroupItem>
+
+			)
+
+
+
+		} else {
+			sideSection.push(
+
+				<ListGroupItem className="sideMenuCellCss" onClick={() => { this.sectionSelection(7) }}><span className="sideMenuCellCss">Automated NLP Score</span></ListGroupItem>
 
 			)
 		}
@@ -1380,8 +1467,8 @@ class SpecificResultsContainer extends Component {
 			for (var i = 0; i < serialNumber.length; i++) {
 				mainSection.push(
 					<Row>
-						{this.displaySequence()}
-						<br/>
+						{this.displaySequence('POINTS')}
+						<br />
 						<PhysioDataResults section={section} startTime={startTime} endTime={endTime} deviceConnection={this.state.deviceConnection} serialNumber={serialNumber[i].SERIALNUMBER} timestamps={this.state.timestampsEvents} nlpTimeStamps={this.state.nlpTimeStampsEvents} eventNames={this.state.eventNames} selectedTimestamp={this.state.selectedTimestamp} selectedNlpTimestamp={this.state.selectedNlpTimestamp} />
 
 					</Row>
@@ -1435,20 +1522,6 @@ class SpecificResultsContainer extends Component {
 			)
 
 		}
-
-
-		if (section === 6) {
-			mainSection.push(
-				<Row>
-
-					Contact Administrator
-				</Row>
-			)
-		}
-
-
-
-
 
 
 

@@ -7,7 +7,6 @@
     "bootstrap": "^3.3.7",
     "d3": "^4.9.1",
     "json2csv": "^3.7.3",
-    "lodash": "^4.17.4",
     "react": "^16.8.0",
     "react-alert": "^5.4.0",
     "react-bootstrap": "^0.31.0",

@@ -27,7 +27,7 @@ class PlayScenarioContainer extends Component {
 			nlpStatus: null,
 			enableNLP: false,
 			nlpComponentShow: true,
-			bulbNlpStatus:false,
+			bulbNlpStatus: false,
 			streamRoomData: [],
 			selectedStream: null,
 			level: -1,
@@ -35,6 +35,7 @@ class PlayScenarioContainer extends Component {
 			significantEvent: [],
 			comments: [],
 			play: 0,
+			startTime: null,
 			playStatus: {
 				timeleft: 0,
 				flashCounter: 0
@@ -99,6 +100,7 @@ class PlayScenarioContainer extends Component {
 				if (response.data && response.data.scenarioDetails && response.data.scenarioDetails.length > 0 && response.data.learnerData && response.data.deviceData && playStatus && response.data.roles && response.data.roles.length > 0) {
 					this.setState({ scenarioName: response.data.scenarioDetails[0].SCENARIO_NAME });
 					this.setState({ scenarioTime: response.data.scenarioDetails[0].TIME_DURATION });
+					this.setState({ scenarioDuration: response.data.scenarioDetails[0].TIME_DURATION });
 					playStatus.timeleft = response.data.scenarioDetails[0].TIME_DURATION;
 
 					//Chhavne
@@ -180,7 +182,7 @@ class PlayScenarioContainer extends Component {
 			// assuming that the API returns a 200 status when it's up and running
 			if (response2.status !== 200) {
 				throw new Error('The Event Detection API is down.')
-				
+
 
 			}
 		} catch (error) {
@@ -212,11 +214,13 @@ class PlayScenarioContainer extends Component {
 				console.log(`Selected stream has Ip: ${selectedIp} and Port: ${selectedPort}`);
 				const scenario_id = this.state.scenario_id
 				const scenario_name = this.state.scenarioName
+				const scenario_duration = this.state.scenarioDuration
 				const modelName = scenario_id.toString() + (scenario_name.replace(/\s/g, '').toLowerCase())
 				//Log all information in console for understanding
 				console.log('Model Name:', modelName)
 				console.log('Scenario ID:', scenario_id)
 				console.log('Scenario Name', scenario_name)
+				console.log('Scenario Duration', scenario_duration)
 				console.log('Event Data', this.state.eventData)
 				console.log('Scenario Data', this.state.scenarioData)
 
@@ -224,6 +228,7 @@ class PlayScenarioContainer extends Component {
 				const streamPostData = {
 					multicast_group: selectedIp,
 					port: selectedPort,
+					scenario_id :scenario_id
 
 				};
 				//POST Body for eventDetectionAPILink
@@ -231,10 +236,13 @@ class PlayScenarioContainer extends Component {
 					model_name: modelName,
 					scenario_id: scenario_id,
 					scenario_name: scenario_name,
+					scenario_duration: scenario_duration,
 					scenario_role_id: this.state.nodes[0].scenario_role_id,
 					processing_status: true,
 					event_id: {},
 					event_time: {},
+					event_timeout: {},
+					event_penalty_coefficient: {},
 					lookup_dict: {}
 				};
 				// Loop through the response data and build key-value pairs
@@ -254,7 +262,16 @@ class PlayScenarioContainer extends Component {
 				eventPostData.event_id = Object.assign({}, ...eventIdMap);
 				let eventTimeMap = this.state.eventData.map(item => ({ [item.EVENT_NAME]: item.TIME_START }));
 				eventPostData.event_time = Object.assign({}, ...eventTimeMap);
+				let eventTimeOutMap = this.state.eventData.map(item => ({ [item.EVENT_NAME]: item.EVENT_TIMEOUT }));
+				eventPostData.event_timeout = Object.assign({}, ...eventTimeOutMap);
+				let eventPenaltyCoefficient = this.state.eventData.map(item => ({ [item.EVENT_NAME]: item.EVENT_PENALTY_COEFFICIENT }));
+				eventPostData.event_penalty_coefficient = Object.assign({}, ...eventPenaltyCoefficient);
 				console.log('Post Data', eventPostData)
+				// Save the values in the component's state
+				this.setState({
+					eventTimeOut: eventPostData.event_timeout,
+					eventPenaltyCoefficient: eventPostData.event_penalty_coefficient
+				});
 
 				axios.post(backendlink.multicastTranscriptionStreamAPILink, streamPostData)
 					.then(response => {
@@ -375,6 +392,10 @@ class PlayScenarioContainer extends Component {
 
 
 	startInterval() {
+		if (this.state.startTime === null) {
+			this.setState({ startTime: Date.now() });
+		}
+		console.log('This is the start Time', this.state.startTime)
 		this.timerID = setInterval(() => {
 			var playStatus = this.state.playStatus;
 			playStatus.flashCounter = (playStatus.flashCounter + 1) % 2;
@@ -389,7 +410,7 @@ class PlayScenarioContainer extends Component {
 		}, 1000);
 	}
 
-	// setInterval() method, if you want flashing even when paused. Note: Note tested thoroughly
+	// setInterval() method, if you want flashing even when paused. Note: Not tested thoroughly
 	// startInterval() {
 	// 	this.timerID = setInterval(() => {
 	// 		var playStatus = this.state.playStatus;
@@ -984,10 +1005,53 @@ class PlayScenarioContainer extends Component {
 
 	displayRoleRating() {
 
+	}
+	calculateScores = (nodes, startTime, event_timeout, event_penalty_coefficient, scenarioDuration) => {
+		// Convert the scenario duration from seconds to milliseconds
+		var D = scenarioDuration * 1000;
 
+		nodes.forEach(node => {
+			// Definition of each term
+			// A = Absolute event time (cutoff time).
+			// T = Actual event time.
+			// D = Total duration of the scenario.
+			// TO = Timeout duration.
+			// PC = Penalty coefficient in percentage (%)
+
+			// Convert the absolute event time from seconds to milliseconds
+			var A = node.time * 1000;
+
+			// Get the actual event time (T)
+			var T = node.completedTime - startTime;
+
+			// Get the timeout and penalty coefficient for the event
+			var TO = (event_timeout[node.eventName] !== null) ? event_timeout[node.eventName] * 1000 : 0;
+			var PC = (event_penalty_coefficient[node.eventName] !== null) ? event_penalty_coefficient[node.eventName] / 100 : 1;
+
+			var Score;
+			// Check if either event_timeout or event_penalty_coefficient are null, 0, or less than 0
+			if (TO === null || TO <= 0 || PC === null || PC <= 0) {
+				Score = null;
+			} else if (T > D) {
+				Score = 0;
+			} else if (T <= A + TO) {
+				Score = 100;
+			} else {
+				var OT = T - (A + TO);
+				var P = (D - OT) / (D - (A + TO));
+				var Penalized_P = Math.pow(P, PC);
+				Score = Math.min(Penalized_P * 100, 100);
+			}
+
+			// Add the calculated score to the node
+			node["automatedInstructorScore"] =  Math.ceil(Score);
+		});
+
+		return nodes;
 
 
 	}
+
 
 	savePlay() {
 		var trainee = {};
@@ -1003,14 +1067,21 @@ class PlayScenarioContainer extends Component {
 				trainee[role.SCENARIO_ROLE_ID]['rating'] = role.RATING;
 			}
 		});
+		let event_timeout = {}
+		let event_penalty_coefficient = {}
+
+		let eventTimeOutMap = this.state.eventData.map(item => ({ [item.EVENT_NAME]: item.EVENT_TIMEOUT }));
+		event_timeout = Object.assign({}, ...eventTimeOutMap);
+		let eventPenaltyCoefficient = this.state.eventData.map(item => ({ [item.EVENT_NAME]: item.EVENT_PENALTY_COEFFICIENT }));
+		event_penalty_coefficient = Object.assign({}, ...eventPenaltyCoefficient);
+		// Calculate scores for each node before stringifying the nodes
+		let updatedNodes = this.calculateScores(this.state.nodes, this.state.startTime, event_timeout, event_penalty_coefficient, this.state.scenarioDuration);
+		this.setState({ nodes: updatedNodes });
 
 		var nodes = JSON.stringify(this.state.nodes);
 
 		var comments = JSON.stringify(this.state.comments);
 		trainee = JSON.stringify(trainee);
-
-
-
 		var params = {
 			trainee: trainee,
 			nodes: nodes,
@@ -1025,6 +1096,8 @@ class PlayScenarioContainer extends Component {
 		axios.defaults.headers.common['authenticationtoken'] = localStorage.jwtToken;
 		// Store nlpStatus in a variable
 		const nlpStatus = this.state.nlpStatus;
+		const start_time=this.state.startTime
+		console.log("this is nlpStatus",nlpStatus)
 		axios.get(backendlink.backendlink + '/saveplay', {
 			params: params
 		})
@@ -1039,6 +1112,8 @@ class PlayScenarioContainer extends Component {
 					console.log('play ID:   ', playId)
 					const stopParams = {
 						play_id: playId,
+						start_time: start_time,
+						scenario_id:this.state.scenario_id
 					}
 					// Check if this.state.nlpStatus is true
 					if (nlpStatus) {
@@ -1054,7 +1129,6 @@ class PlayScenarioContainer extends Component {
 					} else {
 						location.reload();
 					}
-
 				}
 			})
 			.catch(function (error) {
