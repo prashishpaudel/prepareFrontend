@@ -1066,6 +1066,7 @@ class EditScenarioContainer extends Component {
 							<form action="" id="createevent">
 								<Col sm={6}>
 									<table>
+									<caption style={{ color: '#e35d6a', fontSize: '20px', textAlign: 'left',fontWeight: 'bold' }}>Event Training Information</caption>
 										<tr>
 											<td width="160" valign="bottom" ><b>Event Name</b></td>
 											<td><input type="text" name="eventname" size="35" />
@@ -1160,11 +1161,53 @@ class EditScenarioContainer extends Component {
 											</td>
 											<td></td>
 										</tr>
+
+										<tr>
+											<td width="160" valign="bottom" ><b>Event Criticality</b></td>
+											<td><input type="number" name="event_penalty_coefficient" size="35" />
+												<br /><span id="event_penalty_coefficient" className="warning"  ></span>
+											</td>
+											<td></td>
+										</tr>
 										
 									</table>
+
+									
+									<div style={{ border: '1px dashed black', padding: '10px', marginTop: '40px' }}>
+										<Table striped bordered condensed hover>
+											<thead>
+												<tr>
+													<th className="bold-header">Look Up Words:</th>
+												</tr>
+											</thead>
+											<tbody>
+												{this.state.lookupWordsTable.map((item, index) => (
+													<tr key={index}>
+														<td>
+															<textarea //Note use <textarea> for large input
+																type="text"
+																name="lookUpWords"
+																value={item}
+																onChange={event => this.handleInputChange(event, index)}
+																style={{ width: '100%', height: '50px' }}
+
+															/>
+														</td>
+													</tr>
+												))}
+											</tbody>
+										</Table>
+										<button type="button" className="btn btn-info" onClick={this.handleAddRow}>Add Row</button>
+										<div className="text-center">
+											<button type="button" className="btn btn-success" onClick={this.saveRows} >Generate Synonyms</button>
+										</div>
+									</div>
+
 								</Col>
+							
 								<Col sm={6}>
 									<table>
+									<caption style={{ color: '#e35d6a', fontSize: '20px', textAlign: 'left',fontWeight: 'bold' }}>Patient Information</caption>
 										<tr>
 											<td width="160" valign="bottom" ><b>Vital Signs</b></td>
 											<td><span className="warning"></span></td>
@@ -1289,56 +1332,9 @@ class EditScenarioContainer extends Component {
 											</td>
 											<td><span id="cardiac_rhythm" className="warning"  ></span></td>
 										</tr>
-
-										<tr>
-											<td width="160" valign="bottom" ><b>Penalty Coefficient</b></td>
-											<td><input type="number" name="event_penalty_coefficient" size="35" />
-												<br /><span id="event_penalty_coefficient" className="warning"  ></span>
-											</td>
-											<td></td>
-										</tr>
-
 									</table>
-								</Col>
-
-								<Col sm={6}>
-									<div style={{ border: '1px dashed black', padding: '10px', marginTop: '40px' }}>
-										<Table striped bordered condensed hover>
-											<thead>
-												<tr>
-													<th className="bold-header">Look Up Words:</th>
-												</tr>
-											</thead>
-											<tbody>
-												{this.state.lookupWordsTable.map((item, index) => (
-													<tr key={index}>
-														<td>
-															<textarea //Note use <textarea> for large input
-																type="text"
-																name="lookUpWords"
-																value={item}
-																onChange={event => this.handleInputChange(event, index)}
-																style={{ width: '100%', height: '50px' }}
-
-															/>
-														</td>
-													</tr>
-												))}
-											</tbody>
-										</Table>
-										<button type="button" className="btn btn-info" onClick={this.handleAddRow}>Add Row</button>
-										<div className="text-center">
-											<button type="button" className="btn btn-success" onClick={this.saveRows} >Generate Synonyms</button>
-										</div>
-									</div>
-
-								</Col>
-
-
-								<Col sms={6}>
-									<br />
 									<ReactTable
-										style={{ marginTop: "420px", overflow: 'auto'}}
+										style={{ marginTop: "120px",marginBottom: "10px", overflow: 'auto'}}
 										// data={this.state.lookupSynonyms.map((synonym, index) => ({ synonym, index }))}
 										data={this.state.lookupSynonyms.map((synonym, index) => ({ key: index, synonym, index }))}
 
@@ -1362,8 +1358,9 @@ class EditScenarioContainer extends Component {
 										]}
 										defaultPageSize={5}
 									/>
-
 								</Col>
+
+
 								<div className="text-center" style={{ marginTop: "20px" }}>
 									<Button className="btn-primary" onClick={this.submitevent.bind(this)}>Create Event</Button>
 								</div>
